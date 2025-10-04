@@ -31,9 +31,19 @@ Preferred communication style: Simple, everyday language.
 **Animation**: Framer Motion for smooth transitions and scroll-triggered animations throughout the sections.
 
 **Component Structure**: The home page is composed of modular section components:
+- Navbar (fixed navigation with logo, links, mobile menu)
 - Hero, Stats, WhoWeHelp, ChangingLandscape, Methodology, Services, Founder, Packages, Testimonials, Blog, Mentoria, Contact, Footer
 
 Each section uses intersection observers to trigger animations when scrolling into view.
+
+**Navigation**: Fixed navbar component with:
+- Logo and brand name with hover animation
+- Desktop navigation links (Services, Packages, About, Blog, Contact)
+- Mobile hamburger menu with animated slide-down panel
+- Scroll-based background effect (transparent to glass-morphism)
+- Smooth scroll-to-section functionality
+- Full accessibility support (ARIA labels, keyboard navigation)
+- CTA button for quick booking access
 
 ### Backend Architecture
 
