@@ -56,18 +56,27 @@ Each section uses intersection observers to trigger animations when scrolling in
 - Server-side: esbuild bundles the Express server for production
 - Output directory structure separates public assets from server code
 
-**API Structure**: Minimal backend implementation with a placeholder route registration system. The current architecture supports future REST API endpoints prefixed with `/api`.
+**API Structure**: REST API endpoints prefixed with `/api`:
+- `POST /api/contact` - Contact form submission endpoint with Zod validation
+- `GET /api/contact` - Retrieve all contact submissions (admin endpoint)
 
 **Storage Layer**: An in-memory storage implementation (`MemStorage`) provides the foundation for data persistence. This abstraction allows easy migration to database-backed storage without changing the interface.
+
+**Contact Form System**: Full-featured contact form in the Contact section with:
+- React Hook Form with Zod validation for all fields (name, email, phone, purpose, message)
+- Backend API integration storing submissions in memory storage
+- Success/error toast notifications
+- Automatic form reset after successful submission
+- Comprehensive test coverage and accessibility support
 
 ### Data Storage
 
 **ORM**: Drizzle ORM configured for PostgreSQL (via Neon serverless database).
 
-**Schema Design**: Currently defines a basic `users` table with:
-- UUID primary keys (generated via PostgreSQL)
-- Username and password fields
-- Zod validation schemas for type-safe data insertion
+**Schema Design**: Defines the following tables:
+- `users` table: UUID primary keys, username and password fields
+- `contact_submissions` table: UUID primary keys, name, email, phone, purpose, message, and createdAt timestamp
+- Zod validation schemas for type-safe data insertion using `drizzle-zod`
 
 **Migration Strategy**: Drizzle Kit manages database schema migrations with configuration pointing to a PostgreSQL connection via environment variable.
 
