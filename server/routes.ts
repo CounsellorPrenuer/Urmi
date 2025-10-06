@@ -5,6 +5,8 @@ import connectPgSimple from "connect-pg-simple";
 import { storage } from "./storage";
 import { pool } from "./db";
 import bcrypt from "bcrypt";
+import Razorpay from "razorpay";
+import crypto from "crypto";
 import { 
   insertContactSubmissionSchema,
   insertTestimonialSchema,
@@ -357,6 +359,100 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Delete payment error:", error);
       res.status(500).json({ success: false, message: "Error deleting payment" });
+    }
+  });
+
+  const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID || "",
+    key_secret: process.env.RAZORPAY_KEY_SECRET || "",
+  });
+
+  app.post("/api/payment/create-order", async (req, res) => {
+    try {
+      const { amount, packageId, packageName, customerInfo } = req.body;
+
+      if (!amount || !packageId || !packageName || !customerInfo) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Missing required fields" 
+        });
+      }
+
+      const options = {
+        amount: amount * 100,
+        currency: "INR",
+        receipt: `receipt_${Date.now()}`,
+        notes: {
+          packageId,
+          packageName,
+          customerName: customerInfo.name,
+          customerEmail: customerInfo.email,
+          customerPhone: customerInfo.phone,
+        }
+      };
+
+      const order = await razorpay.orders.create(options);
+
+      res.json({
+        success: true,
+        orderId: order.id,
+        amount: order.amount,
+        currency: order.currency,
+        keyId: process.env.RAZORPAY_KEY_ID,
+      });
+    } catch (error) {
+      console.error("Create order error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Error creating payment order" 
+      });
+    }
+  });
+
+  app.post("/api/payment/verify", async (req, res) => {
+    try {
+      const { 
+        razorpay_order_id, 
+        razorpay_payment_id, 
+        razorpay_signature,
+        packageId,
+        packageName,
+        customerInfo
+      } = req.body;
+
+      const sign = razorpay_order_id + "|" + razorpay_payment_id;
+      const expectedSign = crypto
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || "")
+        .update(sign)
+        .digest("hex");
+
+      if (razorpay_signature === expectedSign) {
+        const paymentRecord = await storage.createPaymentTracking({
+          name: customerInfo.name,
+          email: customerInfo.email,
+          phone: customerInfo.phone,
+          packageId,
+          packageName,
+          status: "completed",
+        });
+
+        res.json({
+          success: true,
+          message: "Payment verified successfully",
+          paymentId: paymentRecord.id,
+        });
+      } else {
+        res.status(400).json({
+          success: false,
+          message: "Invalid payment signature",
+        });
+      }
+    } catch (error) {
+      console.error("Payment verification error:", error);
+      res.status(500).json({
+        success: false,
+        message: "Error verifying payment",
+      });
     }
   });
 
