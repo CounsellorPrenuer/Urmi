@@ -57,30 +57,83 @@ Each section uses intersection observers to trigger animations when scrolling in
 - Output directory structure separates public assets from server code
 
 **API Structure**: REST API endpoints prefixed with `/api`:
-- `POST /api/contact` - Contact form submission endpoint with Zod validation
-- `GET /api/contact` - Retrieve all contact submissions (admin endpoint)
+- Authentication:
+  - `POST /api/auth/login` - Admin login with username/password
+  - `POST /api/auth/logout` - Logout and destroy session
+  - `GET /api/auth/session` - Check current session
+- Contact Form:
+  - `POST /api/contact` - Contact form submission endpoint with Zod validation
+  - `GET /api/contact` - Retrieve all contact submissions (requires admin authentication)
+- Testimonials:
+  - `GET /api/testimonials` - Get all testimonials (public)
+  - `POST /api/testimonials` - Create testimonial (requires admin authentication)
+  - `GET /api/testimonials/:id` - Get single testimonial
+  - `PUT /api/testimonials/:id` - Update testimonial (requires admin authentication)
+  - `DELETE /api/testimonials/:id` - Delete testimonial (requires admin authentication)
+- Blogs:
+  - `GET /api/blogs` - Get all blogs (public)
+  - `POST /api/blogs` - Create blog (requires admin authentication)
+  - `GET /api/blogs/:id` - Get single blog
+  - `PUT /api/blogs/:id` - Update blog (requires admin authentication)
+  - `DELETE /api/blogs/:id` - Delete blog (requires admin authentication)
+- Packages:
+  - `GET /api/packages` - Get all packages (public)
+  - `POST /api/packages` - Create package (requires admin authentication)
+  - `GET /api/packages/:id` - Get single package
+  - `PUT /api/packages/:id` - Update package (requires admin authentication)
+  - `DELETE /api/packages/:id` - Delete package (requires admin authentication)
+- Payment Tracking:
+  - `GET /api/payments` - Get all payment records (requires admin authentication)
+  - `POST /api/payments` - Create payment record (public)
+  - `GET /api/payments/:id` - Get single payment (requires admin authentication)
+  - `PUT /api/payments/:id` - Update payment status (requires admin authentication)
+  - `DELETE /api/payments/:id` - Delete payment (requires admin authentication)
 
-**Storage Layer**: An in-memory storage implementation (`MemStorage`) provides the foundation for data persistence. This abstraction allows easy migration to database-backed storage without changing the interface.
+**Storage Layer**: PostgreSQL database storage implementation (`DatabaseStorage`) with full CRUD operations for all entities. The storage layer uses Drizzle ORM for type-safe database queries and Neon serverless PostgreSQL for hosting.
 
 **Contact Form System**: Full-featured contact form in the Contact section with:
 - React Hook Form with Zod validation for all fields (name, email, phone, purpose, message)
-- Backend API integration storing submissions in memory storage
+- Backend API integration storing submissions in PostgreSQL database
 - Success/error toast notifications
 - Automatic form reset after successful submission
 - Comprehensive test coverage and accessibility support
+
+**Admin Dashboard**: Secure administrative interface for managing website content:
+- **Authentication**: Session-based authentication using express-session with PostgreSQL storage
+  - Default credentials: username: `admin`, password: `admin123`
+  - Admin user automatically initialized on server startup
+  - Secure password hashing using bcrypt
+  - Protected routes with authentication middleware
+- **Dashboard Layout**: Shadcn sidebar navigation with the following sections:
+  - Testimonials management (create, read, update, delete)
+  - Blogs management (create, read, update, delete)
+  - Packages management (create, read, update, delete)
+  - Contact submissions viewing
+  - Payment tracking and status management
+- **Features**:
+  - Full CRUD operations with form validation using React Hook Form and Zod
+  - Real-time data updates using TanStack Query
+  - Responsive tables for data display
+  - Modal dialogs for create/edit operations
+  - Success/error toast notifications
+  - Logout functionality with session cleanup
 
 ### Data Storage
 
 **ORM**: Drizzle ORM configured for PostgreSQL (via Neon serverless database).
 
 **Schema Design**: Defines the following tables:
-- `users` table: UUID primary keys, username and password fields
+- `users` table: UUID primary keys, username and password fields (for admin authentication)
 - `contact_submissions` table: UUID primary keys, name, email, phone, purpose, message, and createdAt timestamp
+- `testimonials` table: UUID primary keys, name, role, content, rating (1-5), and createdAt timestamp
+- `blogs` table: UUID primary keys, title, excerpt, content, author, imageUrl (optional), and createdAt timestamp
+- `packages` table: UUID primary keys, name, description, price, duration, features array, and createdAt timestamp
+- `payment_tracking` table: UUID primary keys, name, email, phone, packageId, packageName, status, and createdAt timestamp
 - Zod validation schemas for type-safe data insertion using `drizzle-zod`
 
 **Migration Strategy**: Drizzle Kit manages database schema migrations with configuration pointing to a PostgreSQL connection via environment variable.
 
-**Session Management**: Dependencies include `connect-pg-simple` for PostgreSQL-backed session storage, though session implementation is not yet active.
+**Session Management**: Uses `express-session` with `connect-pg-simple` for PostgreSQL-backed session storage. Sessions are used for admin authentication and persist across server restarts.
 
 ### Design System Integration
 
