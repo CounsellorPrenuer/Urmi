@@ -58,6 +58,19 @@ export const paymentTracking = pgTable("payment_tracking", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const razorpayOrders = pgTable("razorpay_orders", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  razorpayOrderId: text("razorpay_order_id").notNull().unique(),
+  packageId: varchar("package_id").notNull(),
+  packageName: text("package_name").notNull(),
+  amount: integer("amount").notNull(),
+  customerName: text("customer_name").notNull(),
+  customerEmail: text("customer_email").notNull(),
+  customerPhone: text("customer_phone").notNull(),
+  status: text("status").notNull().default("created"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -88,6 +101,11 @@ export const insertPaymentTrackingSchema = createInsertSchema(paymentTracking).o
   createdAt: true,
 });
 
+export const insertRazorpayOrderSchema = createInsertSchema(razorpayOrders).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
@@ -100,3 +118,5 @@ export type InsertPackage = z.infer<typeof insertPackageSchema>;
 export type Package = typeof packages.$inferSelect;
 export type InsertPaymentTracking = z.infer<typeof insertPaymentTrackingSchema>;
 export type PaymentTracking = typeof paymentTracking.$inferSelect;
+export type InsertRazorpayOrder = z.infer<typeof insertRazorpayOrderSchema>;
+export type RazorpayOrder = typeof razorpayOrders.$inferSelect;

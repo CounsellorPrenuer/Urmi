@@ -43,6 +43,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       throw new Error("SESSION_SECRET environment variable must be set in production!");
     }
   }
+
+  if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+    console.error("⚠️  ERROR: RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET must be set!");
+    throw new Error("Razorpay credentials are required");
+  }
   
   app.use(
     session({
@@ -363,28 +368,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || "",
-    key_secret: process.env.RAZORPAY_KEY_SECRET || "",
+    key_id: process.env.RAZORPAY_KEY_ID!,
+    key_secret: process.env.RAZORPAY_KEY_SECRET!,
   });
 
   app.post("/api/payment/create-order", async (req, res) => {
     try {
-      const { amount, packageId, packageName, customerInfo } = req.body;
+      const { packageId, customerInfo } = req.body;
 
-      if (!amount || !packageId || !packageName || !customerInfo) {
+      if (!packageId || !customerInfo?.name || !customerInfo?.email || !customerInfo?.phone) {
         return res.status(400).json({ 
           success: false, 
           message: "Missing required fields" 
         });
       }
 
+      const pkg = await storage.getPackage(packageId);
+      
+      if (!pkg) {
+        return res.status(404).json({
+          success: false,
+          message: "Package not found"
+        });
+      }
+
       const options = {
-        amount: amount * 100,
+        amount: pkg.price * 100,
         currency: "INR",
         receipt: `receipt_${Date.now()}`,
         notes: {
-          packageId,
-          packageName,
+          packageId: pkg.id,
+          packageName: pkg.name,
           customerName: customerInfo.name,
           customerEmail: customerInfo.email,
           customerPhone: customerInfo.phone,
@@ -392,6 +406,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       const order = await razorpay.orders.create(options);
+
+      await storage.createRazorpayOrder({
+        razorpayOrderId: order.id,
+        packageId: pkg.id,
+        packageName: pkg.name,
+        amount: pkg.price,
+        customerName: customerInfo.name,
+        customerEmail: customerInfo.email,
+        customerPhone: customerInfo.phone,
+        status: "created",
+      });
 
       res.json({
         success: true,
@@ -414,26 +439,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { 
         razorpay_order_id, 
         razorpay_payment_id, 
-        razorpay_signature,
-        packageId,
-        packageName,
-        customerInfo
+        razorpay_signature
       } = req.body;
+
+      if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing required fields for verification",
+        });
+      }
+
+      const storedOrder = await storage.getRazorpayOrderByOrderId(razorpay_order_id);
+      
+      if (!storedOrder) {
+        console.error("Payment verification failed: Order not found", { razorpay_order_id, razorpay_payment_id });
+        return res.status(404).json({
+          success: false,
+          message: "Order not found",
+        });
+      }
+
+      const pkg = await storage.getPackage(storedOrder.packageId);
+      
+      if (!pkg) {
+        console.error("Payment verification failed: Package not found", { packageId: storedOrder.packageId, razorpay_payment_id });
+        return res.status(404).json({
+          success: false,
+          message: "Package not found",
+        });
+      }
+
+      if (pkg.price !== storedOrder.amount) {
+        console.error("Payment verification failed: Price mismatch", {
+          expectedAmount: pkg.price,
+          storedAmount: storedOrder.amount,
+          packageId: pkg.id,
+          razorpay_order_id,
+        });
+        await storage.updateRazorpayOrderStatus(razorpay_order_id, "failed_price_mismatch");
+        return res.status(400).json({
+          success: false,
+          message: "Price mismatch detected",
+        });
+      }
 
       const sign = razorpay_order_id + "|" + razorpay_payment_id;
       const expectedSign = crypto
-        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET || "")
+        .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
         .update(sign)
         .digest("hex");
 
       if (razorpay_signature === expectedSign) {
         const paymentRecord = await storage.createPaymentTracking({
-          name: customerInfo.name,
-          email: customerInfo.email,
-          phone: customerInfo.phone,
-          packageId,
-          packageName,
+          name: storedOrder.customerName,
+          email: storedOrder.customerEmail,
+          phone: storedOrder.customerPhone,
+          packageId: pkg.id,
+          packageName: pkg.name,
           status: "completed",
+        });
+
+        await storage.updateRazorpayOrderStatus(razorpay_order_id, "completed");
+
+        console.log("Payment verified successfully:", {
+          paymentId: paymentRecord.id,
+          packageName: pkg.name,
+          customerEmail: storedOrder.customerEmail,
+          razorpay_payment_id,
+          amount: pkg.price,
         });
 
         res.json({
@@ -442,6 +515,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
           paymentId: paymentRecord.id,
         });
       } else {
+        console.error("Payment verification failed: Invalid signature", {
+          razorpay_order_id,
+          razorpay_payment_id,
+          packageId: pkg.id,
+        });
+
+        await storage.createPaymentTracking({
+          name: storedOrder.customerName,
+          email: storedOrder.customerEmail,
+          phone: storedOrder.customerPhone,
+          packageId: pkg.id,
+          packageName: pkg.name,
+          status: "failed",
+        });
+
+        await storage.updateRazorpayOrderStatus(razorpay_order_id, "failed_invalid_signature");
+
         res.status(400).json({
           success: false,
           message: "Invalid payment signature",
@@ -449,6 +539,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     } catch (error) {
       console.error("Payment verification error:", error);
+      
+      try {
+        if (req.body.razorpay_order_id) {
+          const storedOrder = await storage.getRazorpayOrderByOrderId(req.body.razorpay_order_id);
+          if (storedOrder) {
+            await storage.createPaymentTracking({
+              name: storedOrder.customerName,
+              email: storedOrder.customerEmail,
+              phone: storedOrder.customerPhone,
+              packageId: storedOrder.packageId,
+              packageName: storedOrder.packageName,
+              status: "failed",
+            });
+            await storage.updateRazorpayOrderStatus(req.body.razorpay_order_id, "failed_error");
+          }
+        }
+      } catch (trackingError) {
+        console.error("Failed to create error tracking record:", trackingError);
+      }
+
       res.status(500).json({
         success: false,
         message: "Error verifying payment",

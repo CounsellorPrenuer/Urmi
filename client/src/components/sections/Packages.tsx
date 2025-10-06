@@ -83,9 +83,7 @@ export function Packages() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: selectedPackage.price,
           packageId: selectedPackage.id,
-          packageName: selectedPackage.name,
           customerInfo,
         }),
       });
@@ -122,9 +120,6 @@ export function Packages() {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                packageId: selectedPackage.id,
-                packageName: selectedPackage.name,
-                customerInfo,
               }),
             });
 

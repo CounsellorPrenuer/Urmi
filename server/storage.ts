@@ -5,6 +5,7 @@ import {
   blogs,
   packages as packagesTable,
   paymentTracking,
+  razorpayOrders,
   type User, 
   type InsertUser, 
   type ContactSubmission, 
@@ -16,7 +17,9 @@ import {
   type Package,
   type InsertPackage,
   type PaymentTracking,
-  type InsertPaymentTracking
+  type InsertPaymentTracking,
+  type RazorpayOrder,
+  type InsertRazorpayOrder
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -52,6 +55,10 @@ export interface IStorage {
   getPaymentTracking(id: string): Promise<PaymentTracking | undefined>;
   updatePaymentTracking(id: string, payment: Partial<InsertPaymentTracking>): Promise<PaymentTracking>;
   deletePaymentTracking(id: string): Promise<void>;
+  
+  createRazorpayOrder(order: InsertRazorpayOrder): Promise<RazorpayOrder>;
+  getRazorpayOrderByOrderId(razorpayOrderId: string): Promise<RazorpayOrder | undefined>;
+  updateRazorpayOrderStatus(razorpayOrderId: string, status: string): Promise<RazorpayOrder>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -203,6 +210,31 @@ export class DatabaseStorage implements IStorage {
 
   async deletePaymentTracking(id: string): Promise<void> {
     await db.delete(paymentTracking).where(eq(paymentTracking.id, id));
+  }
+
+  async createRazorpayOrder(insertOrder: InsertRazorpayOrder): Promise<RazorpayOrder> {
+    const [order] = await db
+      .insert(razorpayOrders)
+      .values(insertOrder)
+      .returning();
+    return order;
+  }
+
+  async getRazorpayOrderByOrderId(razorpayOrderId: string): Promise<RazorpayOrder | undefined> {
+    const [order] = await db
+      .select()
+      .from(razorpayOrders)
+      .where(eq(razorpayOrders.razorpayOrderId, razorpayOrderId));
+    return order || undefined;
+  }
+
+  async updateRazorpayOrderStatus(razorpayOrderId: string, status: string): Promise<RazorpayOrder> {
+    const [order] = await db
+      .update(razorpayOrders)
+      .set({ status })
+      .where(eq(razorpayOrders.razorpayOrderId, razorpayOrderId))
+      .returning();
+    return order;
   }
 }
 
