@@ -30,7 +30,7 @@ export function Packages() {
     phone: '',
   });
   const { toast } = useToast();
-  
+
   const { data: packages = [], isLoading } = useQuery<Package[]>({
     queryKey: ['/api/packages'],
   });
@@ -40,7 +40,7 @@ export function Packages() {
     align: 'start',
     containScroll: 'trimSnaps'
   });
-  
+
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
   const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
@@ -153,7 +153,7 @@ export function Packages() {
                 title: "Payment Successful!",
                 description: "Your payment has been processed successfully. We'll contact you shortly.",
               });
-              setIsPaymentDialogOpen(false);
+              // Reset the form info after successful payment
               setCustomerInfo({ name: '', email: '', phone: '' });
             } else {
               throw new Error(verifyData.message || 'Payment verification failed');
@@ -179,8 +179,14 @@ export function Packages() {
         },
       };
 
+      // --- CHANGE IS HERE ---
+      // 1. Close the dialog form first.
+      setIsPaymentDialogOpen(false);
+
+      // 2. Then, open the Razorpay payment gateway.
       const razorpay = new window.Razorpay(options);
       razorpay.open();
+
     } catch (error) {
       console.error('Payment error:', error);
       toast({
@@ -193,13 +199,13 @@ export function Packages() {
   };
 
   return (
-    <section id="packages" className="py-24 md:py-32 bg-background" ref={ref}>
+    <section id="packages" className="py-12 md:py-24 bg-background" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-6"
         >
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4" data-testid="text-packages-title">
             Packages
@@ -245,7 +251,7 @@ export function Packages() {
                           ₹{pkg.price.toLocaleString('en-IN')}
                         </div>
                       </CardHeader>
-                      
+
                       <CardContent className="flex-1">
                         <ul className="space-y-3">
                           {pkg.features.map((feature, featureIndex) => (
@@ -258,7 +264,7 @@ export function Packages() {
                           ))}
                         </ul>
                       </CardContent>
-                      
+
                       <CardFooter>
                         <Button 
                           onClick={() => handleGetStarted(pkg)}
@@ -275,7 +281,7 @@ export function Packages() {
             </div>
 
             {packages.length > 3 && (
-              <div className="flex items-center justify-center gap-4 mt-8">
+              <div className="flex items-center justify-center gap-4 mt-4">
                 <Button
                   onClick={scrollPrev}
                   disabled={!prevBtnEnabled}
@@ -314,7 +320,7 @@ export function Packages() {
               )}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name *</Label>
@@ -326,7 +332,7 @@ export function Packages() {
                 data-testid="input-customer-name"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">Email *</Label>
               <Input
@@ -338,7 +344,7 @@ export function Packages() {
                 data-testid="input-customer-email"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number *</Label>
               <Input
