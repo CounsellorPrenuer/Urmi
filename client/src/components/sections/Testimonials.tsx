@@ -1,32 +1,31 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Quote } from 'lucide-react';
+import { Quote, Star } from 'lucide-react';
+import type { Testimonial } from '@shared/schema';
 
-const testimonials = [
-  {
-    initials: 'SP',
-    role: 'Software Engineer → Career Transition',
-    quote: 'Urmi helped me reprogram my self-doubt and realign my goals. The shift was beyond professional—it was personal.',
-    gradient: 'from-primary-purple to-secondary-blue',
-  },
-  {
-    initials: 'RK',
-    role: 'Teacher → Life Coach',
-    quote: 'The sessions helped me dissolve emotional blocks and rediscover my purpose.',
-    gradient: 'from-accent-orange to-primary-purple',
-  },
-  {
-    initials: 'AM',
-    role: 'Marketing Manager → Relationship Mentor',
-    quote: 'From burnout to balance — Claryntia showed me the power of healing from within.',
-    gradient: 'from-secondary-blue to-accent-orange',
-  },
+const gradients = [
+  'from-primary-purple to-secondary-blue',
+  'from-accent-orange to-primary-purple',
+  'from-secondary-blue to-accent-orange',
 ];
+
+function getInitials(name: string): string {
+  const words = name.trim().split(/\s+/);
+  if (words.length === 1) {
+    return words[0].substring(0, 2).toUpperCase();
+  }
+  return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+}
 
 export function Testimonials() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  
+  const { data: testimonials = [], isLoading } = useQuery<Testimonial[]>({
+    queryKey: ['/api/testimonials'],
+  });
 
   return (
     <section className="py-24 md:py-32 bg-background" ref={ref}>
@@ -45,38 +44,55 @@ export function Testimonials() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.initials}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-            >
-              <Card className="h-full glass-effect border border-card-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl p-8" data-testid={`card-testimonial-${index}`}>
-                <CardContent className="p-0">
-                  <div className="mb-6">
-                    <Quote className="w-10 h-10 text-primary-purple/30" />
-                  </div>
-                  <p className="text-foreground leading-relaxed mb-8 italic">
-                    "{testimonial.quote}"
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <Avatar className="w-12 h-12">
-                      <AvatarFallback className={`bg-gradient-to-br ${testimonial.gradient} text-white font-semibold text-lg`}>
-                        {testimonial.initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-semibold text-foreground">{testimonial.initials}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+        {isLoading ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Loading testimonials...</p>
+          </div>
+        ) : testimonials.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No testimonials available at the moment.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+              >
+                <Card className="h-full glass-effect border border-card-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl p-8" data-testid={`card-testimonial-${index}`}>
+                  <CardContent className="p-0">
+                    <div className="mb-6 flex items-center justify-between">
+                      <Quote className="w-10 h-10 text-primary-purple/30" />
+                      {testimonial.rating > 0 && testimonial.rating <= 5 && (
+                        <div className="flex gap-1">
+                          {Array.from({ length: testimonial.rating }).map((_, i) => (
+                            <Star key={i} className="w-4 h-4 fill-accent-orange text-accent-orange" />
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                    <p className="text-foreground leading-relaxed mb-8 italic">
+                      "{testimonial.content}"
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <Avatar className="w-12 h-12">
+                        <AvatarFallback className={`bg-gradient-to-br ${gradients[index % gradients.length]} text-white font-semibold text-lg`}>
+                          {getInitials(testimonial.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="font-semibold text-foreground">{testimonial.name}</div>
+                        <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
