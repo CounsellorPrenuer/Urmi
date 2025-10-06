@@ -5,18 +5,174 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
 import { Check } from 'lucide-react';
 import type { Package } from '@shared/schema';
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 export function Packages() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [showAll, setShowAll] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+  const { toast } = useToast();
   
   const { data: packages = [], isLoading } = useQuery<Package[]>({
     queryKey: ['/api/packages'],
   });
 
   const displayedPackages = showAll ? packages : packages.slice(0, 3);
+
+  const handleGetStarted = (pkg: Package) => {
+    setSelectedPackage(pkg);
+    setIsPaymentDialogOpen(true);
+  };
+
+  const handlePayment = async () => {
+    if (!selectedPackage) return;
+
+    if (!customerInfo.name || !customerInfo.email || !customerInfo.phone) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(customerInfo.email)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(customerInfo.phone)) {
+      toast({
+        title: "Invalid Phone",
+        description: "Please enter a valid 10-digit phone number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      const orderResponse = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: selectedPackage.price,
+          packageId: selectedPackage.id,
+          packageName: selectedPackage.name,
+          customerInfo,
+        }),
+      });
+
+      const orderData = await orderResponse.json();
+
+      if (!orderData.success) {
+        throw new Error(orderData.message || 'Failed to create order');
+      }
+
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Claryntia',
+        description: selectedPackage.name,
+        order_id: orderData.orderId,
+        prefill: {
+          name: customerInfo.name,
+          email: customerInfo.email,
+          contact: customerInfo.phone,
+        },
+        theme: {
+          color: '#6A1B9A',
+        },
+        handler: async function (response: any) {
+          try {
+            const verifyResponse = await fetch('/api/payment/verify', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                packageId: selectedPackage.id,
+                packageName: selectedPackage.name,
+                customerInfo,
+              }),
+            });
+
+            const verifyData = await verifyResponse.json();
+
+            if (verifyData.success) {
+              toast({
+                title: "Payment Successful!",
+                description: "Your payment has been processed successfully. We'll contact you shortly.",
+              });
+              setIsPaymentDialogOpen(false);
+              setCustomerInfo({ name: '', email: '', phone: '' });
+            } else {
+              throw new Error(verifyData.message || 'Payment verification failed');
+            }
+          } catch (error) {
+            toast({
+              title: "Payment Verification Failed",
+              description: "Please contact support with your payment details.",
+              variant: "destructive",
+            });
+          } finally {
+            setIsProcessing(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false);
+            toast({
+              title: "Payment Cancelled",
+              description: "You have cancelled the payment process.",
+            });
+          },
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast({
+        title: "Payment Error",
+        description: "Failed to initiate payment. Please try again.",
+        variant: "destructive",
+      });
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <section id="packages" className="py-24 md:py-32 bg-background" ref={ref}>
@@ -84,6 +240,7 @@ export function Packages() {
                     
                     <CardFooter>
                       <Button 
+                        onClick={() => handleGetStarted(pkg)}
                         className="w-full rounded-full py-6 bg-primary-purple text-white"
                         data-testid={`button-get-started-${index}`}
                       >
@@ -116,6 +273,78 @@ export function Packages() {
           </>
         )}
       </div>
+
+      <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
+        <DialogContent data-testid="dialog-payment">
+          <DialogHeader>
+            <DialogTitle>Complete Your Purchase</DialogTitle>
+            <DialogDescription>
+              {selectedPackage && (
+                <>
+                  <span className="font-semibold">{selectedPackage.name}</span> - ₹{selectedPackage.price.toLocaleString('en-IN')}
+                </>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name *</Label>
+              <Input
+                id="name"
+                placeholder="Enter your full name"
+                value={customerInfo.name}
+                onChange={(e) => setCustomerInfo({ ...customerInfo, name: e.target.value })}
+                data-testid="input-customer-name"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="email">Email *</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                value={customerInfo.email}
+                onChange={(e) => setCustomerInfo({ ...customerInfo, email: e.target.value })}
+                data-testid="input-customer-email"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="phone">Phone Number *</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="Enter 10-digit phone number"
+                value={customerInfo.phone}
+                onChange={(e) => setCustomerInfo({ ...customerInfo, phone: e.target.value })}
+                maxLength={10}
+                data-testid="input-customer-phone"
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsPaymentDialogOpen(false)}
+              disabled={isProcessing}
+              data-testid="button-cancel-payment"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handlePayment}
+              disabled={isProcessing}
+              className="bg-primary-purple text-white"
+              data-testid="button-proceed-payment"
+            >
+              {isProcessing ? 'Processing...' : 'Proceed to Payment'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
