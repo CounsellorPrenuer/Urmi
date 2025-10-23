@@ -22,7 +22,7 @@ Preferred communication style: Simple, everyday language.
 - Tailwind CSS for utility-first styling
 - Custom design system defined in `design_guidelines.md` specifying:
   - Color palette: Primary purple (#6A1B9A), accent orange (#FF9800), secondary blue (#03A9F4)
-  - Typography: Playfair Display for headings, Inter for body text
+  - Typography: Playfair Display for all text (headings and body)
   - Layout system with consistent spacing and responsive grid patterns
   - Premium aesthetic combining minimalism with soft gradients and glass-morphism effects
 

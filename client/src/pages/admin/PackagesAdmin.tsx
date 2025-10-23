@@ -263,7 +263,7 @@ export default function PackagesAdmin() {
               {packages?.map((pkg) => (
                 <TableRow key={pkg.id} data-testid={`row-package-${pkg.id}`}>
                   <TableCell>{pkg.name}</TableCell>
-                  <TableCell>${pkg.price}</TableCell>
+                  <TableCell>₹{pkg.price}</TableCell>
                   <TableCell>{pkg.duration}</TableCell>
                   <TableCell className="max-w-md">
                     <div className="truncate">{pkg.features.join(', ')}</div>

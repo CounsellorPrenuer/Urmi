@@ -71,6 +71,12 @@ export default function AdminLogin() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {/* --- Credentials Added Here --- */}
+          <div className="bg-muted p-3 rounded-md mb-4 text-sm text-muted-foreground">
+            <p><strong>Username:</strong> <code>admin</code></p>
+            <p className="mt-1"><strong>Password:</strong> <code>admin123</code></p>
+          </div>
+          {/* --------------------------- */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
