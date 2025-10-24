@@ -4,25 +4,20 @@ import { useInView } from 'react-intersection-observer';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Check, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Download, Copy } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
+import { QRCodeSVG } from 'qrcode.react';
 import type { Package } from '@shared/schema';
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
 
 export function Packages() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-  const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+  const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const [isQRDialogOpen, setIsQRDialogOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
@@ -62,10 +57,26 @@ export function Packages() {
 
   const handleGetStarted = (pkg: Package) => {
     setSelectedPackage(pkg);
-    setIsPaymentDialogOpen(true);
+    setIsFormDialogOpen(true);
   };
 
-  const handlePayment = async () => {
+  const generateUPIUrl = (packageName: string, amount: number) => {
+    const upiId = 'joint.arum@okaxis';
+    const payeeName = 'Claryntia - Urmi Dasgupta';
+    const transactionNote = `Payment for ${packageName}`;
+    
+    const params = new URLSearchParams({
+      pa: upiId,
+      pn: payeeName,
+      am: amount.toString(),
+      cu: 'INR',
+      tn: transactionNote
+    });
+    
+    return `upi://pay?${params.toString()}`;
+  };
+
+  const handleProceedToPayment = async () => {
     if (!selectedPackage) return;
 
     if (!customerInfo.name || !customerInfo.email || !customerInfo.phone) {
@@ -100,114 +111,88 @@ export function Packages() {
     setIsProcessing(true);
 
     try {
-      const orderResponse = await fetch('/api/payment/create-order', {
+      const response = await fetch('/api/payments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          name: customerInfo.name,
+          email: customerInfo.email,
+          phone: customerInfo.phone,
           packageId: selectedPackage.id,
-          customerInfo,
+          packageName: selectedPackage.name,
+          status: 'pending',
         }),
       });
 
-      const orderData = await orderResponse.json();
+      const result = await response.json();
 
-      if (!orderData.success) {
-        throw new Error(orderData.message || 'Failed to create order');
+      if (!result.success) {
+        throw new Error(result.message || 'Failed to create payment record');
       }
 
-      const options = {
-        key: orderData.keyId,
-        amount: orderData.amount,
-        currency: orderData.currency,
-        name: 'Claryntia',
-        description: selectedPackage.name,
-        order_id: orderData.orderId,
-        prefill: {
-          name: customerInfo.name,
-          email: customerInfo.email,
-          contact: customerInfo.phone,
-        },
-        theme: {
-          color: '#6A1B9A',
-        },
-        handler: async function (response: any) {
-          try {
-            const verifyResponse = await fetch('/api/payment/verify', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
-
-            const verifyData = await verifyResponse.json();
-
-            if (verifyData.success) {
-              toast({
-                title: "Payment Successful!",
-                description: "Your payment has been processed successfully. We'll contact you shortly.",
-              });
-              // Reset the form info after successful payment
-              setCustomerInfo({ name: '', email: '', phone: '' });
-            } else {
-              throw new Error(verifyData.message || 'Payment verification failed');
-            }
-          } catch (error) {
-            toast({
-              title: "Payment Verification Failed",
-              description: "Please contact support with your payment details.",
-              variant: "destructive",
-            });
-          } finally {
-            setIsProcessing(false);
-          }
-        },
-        modal: {
-          ondismiss: async function () {
-            setIsProcessing(false);
-            
-            try {
-              await fetch('/api/payment/cancel', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  razorpay_order_id: orderData.orderId,
-                }),
-              });
-            } catch (error) {
-              console.error('Error cancelling payment:', error);
-            }
-            
-            toast({
-              title: "Payment Cancelled",
-              description: "You have cancelled the payment process.",
-            });
-          },
-        },
-      };
-
-      setIsPaymentDialogOpen(false);
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-
+      setIsFormDialogOpen(false);
+      setIsQRDialogOpen(true);
+      
     } catch (error) {
       console.error('Payment error:', error);
       toast({
-        title: "Payment Error",
-        description: "Failed to initiate payment. Please try again.",
+        title: "Error",
+        description: "Failed to process request. Please try again.",
         variant: "destructive",
       });
+    } finally {
       setIsProcessing(false);
     }
+  };
+
+  const handleCopyUPI = () => {
+    navigator.clipboard.writeText('joint.arum@okaxis');
+    toast({
+      title: "Copied!",
+      description: "UPI ID copied to clipboard",
+    });
+  };
+
+  const handleDownloadQR = () => {
+    const svg = document.getElementById('upi-qr-code');
+    if (!svg) return;
+    
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx?.drawImage(img, 0, 0);
+      const pngFile = canvas.toDataURL('image/png');
+      
+      const downloadLink = document.createElement('a');
+      downloadLink.download = 'claryntia-payment-qr.png';
+      downloadLink.href = pngFile;
+      downloadLink.click();
+      
+      toast({
+        title: "Downloaded!",
+        description: "QR code saved to your device",
+      });
+    };
+    
+    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+  };
+
+  const handleCloseQRDialog = () => {
+    setIsQRDialogOpen(false);
+    setCustomerInfo({ name: '', email: '', phone: '' });
+    setSelectedPackage(null);
+    
+    toast({
+      title: "Thank you!",
+      description: "We've recorded your details. Please complete the payment and we'll contact you shortly.",
+    });
   };
 
   return (
@@ -320,10 +305,11 @@ export function Packages() {
         )}
       </div>
 
-      <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
-        <DialogContent data-testid="dialog-payment">
+      {/* Customer Information Dialog */}
+      <Dialog open={isFormDialogOpen} onOpenChange={setIsFormDialogOpen}>
+        <DialogContent data-testid="dialog-customer-info">
           <DialogHeader>
-            <DialogTitle>Complete Your Purchase</DialogTitle>
+            <DialogTitle>Enter Your Details</DialogTitle>
             <DialogDescription>
               {selectedPackage && (
                 <>
@@ -374,14 +360,14 @@ export function Packages() {
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setIsPaymentDialogOpen(false)}
+              onClick={() => setIsFormDialogOpen(false)}
               disabled={isProcessing}
               data-testid="button-cancel-payment"
             >
               Cancel
             </Button>
             <Button
-              onClick={handlePayment}
+              onClick={handleProceedToPayment}
               disabled={isProcessing}
               className="bg-primary-purple text-white"
               data-testid="button-proceed-payment"
@@ -389,6 +375,89 @@ export function Packages() {
               {isProcessing ? 'Processing...' : 'Proceed to Payment'}
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* UPI QR Code Dialog */}
+      <Dialog open={isQRDialogOpen} onOpenChange={setIsQRDialogOpen}>
+        <DialogContent className="max-w-md" data-testid="dialog-qr-code">
+          <DialogHeader>
+            <DialogTitle className="text-center">Scan to Pay</DialogTitle>
+            <DialogDescription className="text-center">
+              {selectedPackage && (
+                <div className="space-y-2">
+                  <p className="font-semibold text-lg">{selectedPackage.name}</p>
+                  <p className="text-2xl font-bold text-primary-purple">₹{selectedPackage.price.toLocaleString('en-IN')}</p>
+                </div>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex flex-col items-center space-y-6 py-4">
+            {/* QR Code */}
+            <div className="bg-white p-6 rounded-2xl shadow-lg">
+              <QRCodeSVG
+                id="upi-qr-code"
+                value={selectedPackage ? generateUPIUrl(selectedPackage.name, selectedPackage.price) : ''}
+                size={240}
+                level="H"
+                includeMargin={true}
+              />
+            </div>
+
+            {/* UPI ID */}
+            <div className="w-full space-y-2">
+              <Label className="text-sm text-muted-foreground">UPI ID</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  value="joint.arum@okaxis"
+                  readOnly
+                  className="flex-1 font-mono"
+                  data-testid="input-upi-id"
+                />
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={handleCopyUPI}
+                  data-testid="button-copy-upi"
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Instructions */}
+            <div className="w-full space-y-3 bg-muted/50 p-4 rounded-lg">
+              <h4 className="font-semibold text-sm">Payment Instructions:</h4>
+              <ol className="text-sm space-y-2 text-muted-foreground list-decimal list-inside">
+                <li>Open any UPI app (Google Pay, PhonePe, Paytm, etc.)</li>
+                <li>Scan the QR code or enter the UPI ID</li>
+                <li>Verify the amount: ₹{selectedPackage?.price.toLocaleString('en-IN')}</li>
+                <li>Complete the payment</li>
+                <li>We'll contact you shortly at {customerInfo.email}</li>
+              </ol>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-2 w-full">
+              <Button
+                variant="outline"
+                onClick={handleDownloadQR}
+                className="flex-1"
+                data-testid="button-download-qr"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download QR
+              </Button>
+              <Button
+                onClick={handleCloseQRDialog}
+                className="flex-1 bg-primary-purple text-white"
+                data-testid="button-close-qr"
+              >
+                Done
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </section>
