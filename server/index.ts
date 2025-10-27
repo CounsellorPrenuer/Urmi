@@ -4,6 +4,10 @@ import { setupVite, serveStatic, log } from "./vite";
 import { initializeAdmin } from "./init";
 
 const app = express();
+
+// Trust proxy - required for secure cookies behind reverse proxy (Cloud Run, etc.)
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
