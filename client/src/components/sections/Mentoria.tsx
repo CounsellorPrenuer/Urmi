@@ -62,6 +62,7 @@ export function Mentoria() {
             variant="outline"
             className="rounded-full px-8 py-6 border-2 border-primary-purple text-primary-purple hover:bg-primary-purple hover:text-white transition-colors group"
             data-testid="button-mentoria-explore"
+            onClick={() => window.open("https://www.mentoria.com", "_blank")} // Opens in new tab
           >
             Explore Mentoria Platform
             <ExternalLink className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
