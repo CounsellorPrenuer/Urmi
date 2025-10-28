@@ -1,0 +1,142 @@
+[
+  {
+    "id": "49f691a1-10c2-4a71-ad6b-08380a5c8592",
+    "name": "Discover Plus+",
+    "description": "PREMIUM",
+    "price": 15000,
+    "category": "8-9 Students",
+    "features": [
+      "Psychometric assessments to measure your interests, personality and abilities",
+      "8 career counselling sessions (1 every year) with Mentoria's expert career coaches until graduation",
+      "Lifetime access to Knowledge Gateway",
+      "Invites to live webinars by industry experts",
+      "Customised reports after each session with education pathways",
+      "Guidance on studying abroad",
+      "CV building during internships/graduation"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "bec6d295-fb48-420a-842e-187418c5f898",
+    "name": "Discover",
+    "description": "STANDARD",
+    "price": 5500,
+    "category": "8-9 Students",
+    "features": [
+      "Psychometric assessment to measure your interests",
+      "1 career counselling session with Mentoria's expert career coaches",
+      "Lifetime access to Knowledge Gateway",
+      "Invites to live webinars by industry experts"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "a3e26926-0b0a-46fb-a58a-287d3dee7f2f",
+    "name": "Achieve Plus+",
+    "description": "PREMIUM",
+    "price": 10599,
+    "category": "10-12 Students",
+    "features": [
+      "Psychometric assessment to measure your interests, personality and abilities",
+      "4 career counselling sessions",
+      "Lifetime access to Knowledge Gateway",
+      "Attend live webinars by industry experts",
+      "Customised reports after each session with education pathways",
+      "Guidance on studying abroad",
+      "CV reviews during internships/graduation"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "a365ecfe-9166-4f2c-bf40-3eacdd7a3f7f",
+    "name": "Achieve Online",
+    "description": "STANDARD",
+    "price": 5999,
+    "category": "10-12 Students",
+    "features": [
+      "Psychometric assessment to measure your interests, personality and abilities",
+      "1 career counselling session",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "ba4f217e-2336-4519-a693-b342c7788e72",
+    "name": "Ascend Plus+",
+    "description": "PREMIUM",
+    "price": 10599,
+    "category": "Working Professionals",
+    "features": [
+      "Psychometric assessment to measure your interests, personality and abilities",
+      "3 career counselling sessions",
+      "Lifetime access to Knowledge Gateway",
+      "Attend live webinars by industry experts",
+      "Customised reports after each session with information on certificate/online courses",
+      "Guidance on studying abroad",
+      "CV reviews for job application"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "afbd389c-2dad-4956-8d8d-fa998af11924",
+    "name": "Ascend Online",
+    "description": "STANDARD",
+    "price": 6499,
+    "category": "College Graduates",
+    "features": [
+      "Psychometric assessment to measure your interests, personality and abilities",
+      "1 career coaching session for specialisation/job selection",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
+    ],
+    "is_popular": true,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "24b7b04e-b09d-4250-8134-9eb303d93801",
+    "name": "Ascend Online",
+    "description": "STANDARD",
+    "price": 6499,
+    "category": "Working Professionals",
+    "features": [
+      "Psychometric assessment to measure your interests, personality and abilities",
+      "1 career counselling session",
+      "Lifetime access to Knowledge Gateway",
+      "Pre-recorded webinars by industry experts"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  },
+  {
+    "id": "cc4254f6-e1dd-4389-b3a9-388cde91e653",
+    "name": "Ascend Plus+",
+    "description": "PREMIUM",
+    "price": 10599,
+    "category": "College Graduates",
+    "features": [
+      "Psychometric assessment to measure your interests, personality and abilities",
+      "3 career coaching sessions",
+      "Lifetime access to Knowledge Gateway",
+      "Guidance on Masters' admissions in India and abroad",
+      "Guidance until you get into the job you love",
+      "CV reviews during internships/graduation",
+      "Career helpline access"
+    ],
+    "is_popular": false,
+    "is_active": true,
+    "created_at": "2025-10-28T10:01:26.023Z"
+  }
+]
