@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Phone, Mail, MapPin, Instagram, Twitter, Loader2 } from 'lucide-react';
-import { SiWhatsapp } from 'react-icons/si';
+import { SiWhatsapp, SiYoutube, SiSpotify, SiFacebook, SiPinterest } from 'react-icons/si';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -50,6 +50,10 @@ export function Contact() {
     { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/urmidasgupta' },
     { icon: Twitter, label: 'X (Twitter)', href: 'https://x.com/@UrMzD' },
     { icon: SiWhatsapp, label: 'WhatsApp', href: 'https://api.whatsapp.com/send/?phone=919886635186&text&type=phone_number&app_absent=0' },
+    { icon: SiYoutube, label: 'YouTube', href: 'https://www.youtube.com/@claryntia' },
+    { icon: SiSpotify, label: 'Spotify', href: 'https://spotify.app.link/uEgPZ9ljLXb?_p=c11434dc9a0164eee01f8fe3eebd' },
+    { icon: SiFacebook, label: 'Facebook', href: 'https://www.facebook.com/urmi.dasgupta' },
+    { icon: SiPinterest, label: 'Pinterest', href: 'https://in.pinterest.com/urmidasgupta/' },
   ];
 
   const purposeOptions = [
@@ -290,7 +294,7 @@ export function Contact() {
               className="pt-6"
             >
               <p className="text-muted-foreground mb-4 text-center">Follow Claryntia Online</p>
-              <div className="flex justify-center gap-4">
+              <div className="flex justify-center flex-wrap gap-3">
                 {socials.map((social, index) => (
                   <motion.a
                     key={social.label}
