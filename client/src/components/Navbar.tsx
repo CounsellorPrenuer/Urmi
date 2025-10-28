@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoImg from '@assets/Screenshot_2025-10-04_122812-removebg-preview_1759562746476.png';
+import { FreeDiscoveryCallModal } from '@/components/FreeDiscoveryCallModal';
 
 const navLinks = [
   { name: 'Services', href: '#services' },
@@ -15,6 +16,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,7 +109,7 @@ export function Navbar() {
             <Button
               size="default"
               className="bg-gradient-to-r from-primary-purple to-secondary-blue text-white rounded-full px-6"
-              onClick={() => scrollToSection('#contact')}
+              onClick={() => setIsModalOpen(true)}
               data-testid="button-nav-cta"
             >
               Book Free Call
@@ -169,7 +171,10 @@ export function Navbar() {
                 <Button
                   size="default"
                   className="w-full bg-gradient-to-r from-primary-purple to-secondary-blue text-white rounded-full"
-                  onClick={() => scrollToSection('#contact')}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsModalOpen(true);
+                  }}
                   data-testid="button-mobile-cta"
                 >
                   Book Free Call
@@ -179,6 +184,8 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      <FreeDiscoveryCallModal open={isModalOpen} onOpenChange={setIsModalOpen} />
     </motion.nav>
   );
 }

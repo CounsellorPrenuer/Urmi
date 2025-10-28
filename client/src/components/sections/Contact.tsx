@@ -11,7 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Phone, Mail, MapPin, Instagram, Linkedin, Twitter, Loader2 } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Twitter, Loader2 } from 'lucide-react';
+import { SiWhatsapp } from 'react-icons/si';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -46,9 +47,9 @@ export function Contact() {
   ];
 
   const socials = [
-    { icon: Instagram, label: 'Instagram', href: '#' },
-    { icon: Linkedin, label: 'LinkedIn', href: '#' },
-    { icon: Twitter, label: 'X (Twitter)', href: '#' },
+    { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/urmidasgupta' },
+    { icon: Twitter, label: 'X (Twitter)', href: 'https://x.com/@UrMzD' },
+    { icon: SiWhatsapp, label: 'WhatsApp', href: 'https://api.whatsapp.com/send/?phone=919886635186&text&type=phone_number&app_absent=0' },
   ];
 
   const purposeOptions = [
@@ -294,11 +295,13 @@ export function Contact() {
                   <motion.a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
                     className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-purple/10 to-secondary-blue/10 flex items-center justify-center hover:from-primary-purple hover:to-secondary-blue hover:text-white transition-all group"
-                    data-testid={`social-${social.label.toLowerCase()}`}
+                    data-testid={`social-${social.label.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     <social.icon className="w-5 h-5 text-primary-purple group-hover:text-white transition-colors" />
                   </motion.a>

@@ -1,9 +1,20 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import logoImg from '@assets/Screenshot_2025-10-04_122812-removebg-preview_1759562746476.png';
+import { FreeDiscoveryCallModal } from '@/components/FreeDiscoveryCallModal';
 
 export function Hero() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.querySelector(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 animate-gradient bg-gradient-to-br from-primary-purple via-secondary-blue to-accent-orange opacity-10" />
@@ -63,6 +74,7 @@ export function Hero() {
             size="lg" 
             className="bg-gradient-to-r from-primary-purple to-secondary-blue text-white px-8 py-6 text-lg rounded-full group"
             data-testid="button-free-call"
+            onClick={() => setIsModalOpen(true)}
           >
             Free Clarity Discovery Call
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -72,6 +84,7 @@ export function Hero() {
             variant="outline" 
             className="px-8 py-6 text-lg rounded-full border-2 border-primary-purple text-primary-purple hover:bg-primary-purple hover:text-white transition-colors"
             data-testid="button-learn-more"
+            onClick={() => scrollToSection('#who-we-help')}
           >
             Learn More
           </Button>
@@ -79,6 +92,8 @@ export function Hero() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      
+      <FreeDiscoveryCallModal open={isModalOpen} onOpenChange={setIsModalOpen} />
     </section>
   );
 }
