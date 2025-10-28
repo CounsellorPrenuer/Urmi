@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -72,6 +72,18 @@ export const razorpayOrders = pgTable("razorpay_orders", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const mentoriaPackages = pgTable("mentoria_packages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  price: integer("price").notNull(),
+  category: text("category").notNull(),
+  features: text("features").array().notNull(),
+  isPopular: boolean("is_popular").notNull().default(false),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -107,6 +119,11 @@ export const insertRazorpayOrderSchema = createInsertSchema(razorpayOrders).omit
   createdAt: true,
 });
 
+export const insertMentoriaPackageSchema = createInsertSchema(mentoriaPackages).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
@@ -121,3 +138,5 @@ export type InsertPaymentTracking = z.infer<typeof insertPaymentTrackingSchema>;
 export type PaymentTracking = typeof paymentTracking.$inferSelect;
 export type InsertRazorpayOrder = z.infer<typeof insertRazorpayOrderSchema>;
 export type RazorpayOrder = typeof razorpayOrders.$inferSelect;
+export type InsertMentoriaPackage = z.infer<typeof insertMentoriaPackageSchema>;
+export type MentoriaPackage = typeof mentoriaPackages.$inferSelect;

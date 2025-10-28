@@ -6,6 +6,7 @@ import {
   packages as packagesTable,
   paymentTracking,
   razorpayOrders,
+  mentoriaPackages,
   type User, 
   type InsertUser, 
   type ContactSubmission, 
@@ -19,7 +20,9 @@ import {
   type PaymentTracking,
   type InsertPaymentTracking,
   type RazorpayOrder,
-  type InsertRazorpayOrder
+  type InsertRazorpayOrder,
+  type MentoriaPackage,
+  type InsertMentoriaPackage
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -61,6 +64,13 @@ export interface IStorage {
   createRazorpayOrder(order: InsertRazorpayOrder): Promise<RazorpayOrder>;
   getRazorpayOrderByOrderId(razorpayOrderId: string): Promise<RazorpayOrder | undefined>;
   updateRazorpayOrderStatus(razorpayOrderId: string, status: string): Promise<RazorpayOrder>;
+  
+  createMentoriaPackage(pkg: InsertMentoriaPackage): Promise<MentoriaPackage>;
+  getMentoriaPackages(): Promise<MentoriaPackage[]>;
+  getActiveMentoriaPackages(): Promise<MentoriaPackage[]>;
+  getMentoriaPackage(id: string): Promise<MentoriaPackage | undefined>;
+  updateMentoriaPackage(id: string, pkg: Partial<InsertMentoriaPackage>): Promise<MentoriaPackage>;
+  deleteMentoriaPackage(id: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -251,6 +261,40 @@ export class DatabaseStorage implements IStorage {
       .where(eq(razorpayOrders.razorpayOrderId, razorpayOrderId))
       .returning();
     return order;
+  }
+
+  async createMentoriaPackage(insertPackage: InsertMentoriaPackage): Promise<MentoriaPackage> {
+    const [pkg] = await db
+      .insert(mentoriaPackages)
+      .values(insertPackage)
+      .returning();
+    return pkg;
+  }
+
+  async getMentoriaPackages(): Promise<MentoriaPackage[]> {
+    return await db.select().from(mentoriaPackages);
+  }
+
+  async getActiveMentoriaPackages(): Promise<MentoriaPackage[]> {
+    return await db.select().from(mentoriaPackages).where(eq(mentoriaPackages.isActive, true));
+  }
+
+  async getMentoriaPackage(id: string): Promise<MentoriaPackage | undefined> {
+    const [pkg] = await db.select().from(mentoriaPackages).where(eq(mentoriaPackages.id, id));
+    return pkg || undefined;
+  }
+
+  async updateMentoriaPackage(id: string, data: Partial<InsertMentoriaPackage>): Promise<MentoriaPackage> {
+    const [pkg] = await db
+      .update(mentoriaPackages)
+      .set(data)
+      .where(eq(mentoriaPackages.id, id))
+      .returning();
+    return pkg;
+  }
+
+  async deleteMentoriaPackage(id: string): Promise<void> {
+    await db.delete(mentoriaPackages).where(eq(mentoriaPackages.id, id));
   }
 }
 

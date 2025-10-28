@@ -1,0 +1,27 @@
+4. On Successful Payment
+
+When payment succeeds:
+
+Store the following in database and in admin dashboard trcknig section
+
+Payment ID
+
+Order ID
+
+Amount
+
+Payment Status (success/failed)
+
+Package ID / Name
+
+User Details (name, email, phone)
+
+Timestamp
+
+Redirect user to a Thank You / Success Page displaying:
+
+Confirmation message
+
+Payment details
+
+Package information

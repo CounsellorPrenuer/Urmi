@@ -10,7 +10,8 @@ import {
   insertTestimonialSchema,
   insertBlogSchema,
   insertPackageSchema,
-  insertPaymentTrackingSchema
+  insertPaymentTrackingSchema,
+  insertMentoriaPackageSchema
 } from "@shared/schema";
 
 const PgSession = connectPgSimple(session);
@@ -303,6 +304,72 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Delete package error:", error);
       res.status(500).json({ success: false, message: "Error deleting package" });
+    }
+  });
+
+  // Mentoria Packages Routes
+  app.post("/api/mentoria-packages", isAuthenticated, async (req, res) => {
+    try {
+      const validatedData = insertMentoriaPackageSchema.parse(req.body);
+      const pkg = await storage.createMentoriaPackage(validatedData);
+      res.json({ success: true, data: pkg });
+    } catch (error) {
+      console.error("Create mentoria package error:", error);
+      res.status(400).json({ success: false, message: "Invalid data" });
+    }
+  });
+
+  app.get("/api/mentoria-packages", async (req, res) => {
+    try {
+      const packages = await storage.getMentoriaPackages();
+      res.json(packages);
+    } catch (error) {
+      console.error("Error fetching mentoria packages:", error);
+      res.status(500).json({ success: false, message: "Error fetching mentoria packages" });
+    }
+  });
+
+  app.get("/api/mentoria-packages/active", async (req, res) => {
+    try {
+      const packages = await storage.getActiveMentoriaPackages();
+      res.json(packages);
+    } catch (error) {
+      console.error("Error fetching active mentoria packages:", error);
+      res.status(500).json({ success: false, message: "Error fetching mentoria packages" });
+    }
+  });
+
+  app.get("/api/mentoria-packages/:id", async (req, res) => {
+    try {
+      const pkg = await storage.getMentoriaPackage(req.params.id);
+      if (!pkg) {
+        return res.status(404).json({ success: false, message: "Mentoria package not found" });
+      }
+      res.json(pkg);
+    } catch (error) {
+      console.error("Error fetching mentoria package:", error);
+      res.status(500).json({ success: false, message: "Error fetching mentoria package" });
+    }
+  });
+
+  app.put("/api/mentoria-packages/:id", isAuthenticated, async (req, res) => {
+    try {
+      const validatedData = insertMentoriaPackageSchema.parse(req.body);
+      const pkg = await storage.updateMentoriaPackage(req.params.id, validatedData);
+      res.json({ success: true, data: pkg });
+    } catch (error) {
+      console.error("Update mentoria package error:", error);
+      res.status(400).json({ success: false, message: "Invalid data" });
+    }
+  });
+
+  app.delete("/api/mentoria-packages/:id", isAuthenticated, async (req, res) => {
+    try {
+      await storage.deleteMentoriaPackage(req.params.id);
+      res.json({ success: true, message: "Mentoria package deleted" });
+    } catch (error) {
+      console.error("Delete mentoria package error:", error);
+      res.status(500).json({ success: false, message: "Error deleting mentoria package" });
     }
   });
 

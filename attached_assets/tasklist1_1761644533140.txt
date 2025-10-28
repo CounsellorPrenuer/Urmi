@@ -1,0 +1,89 @@
+Create a new section below the main “Packages” section named “Mentoria Packages.”
+
+This section will display all Mentoria-specific career plans — such as Discover Plus+, Achieve Plus+, Ascend Online, etc.
+All data should be managed dynamically through the Admin Dashboard and stored in the database.
+
+⚙️ Admin Dashboard – Mentoria Packages Management
+
+Admins should be able to Create, Read, Update, and Delete (CRUD) Mentoria packages through a dedicated admin interface.
+
+🧾 Form Fields
+Field Name	Type	Description
+Package Name	Text	Name of the Mentoria package (e.g., Discover Plus+)
+Description	Textarea	Short tagline or overview of the package
+Price (INR)	Number	Price of the package (in Indian Rupees)
+Category	Dropdown	Select category: 8–9 Students, 10–12 Students, College Graduates, Working Professionals
+Features	Dynamic List	Each feature can be entered as a separate text field with an “Add Feature” button to append more
+Mark as Popular	Toggle (boolean)	Marks the package as “Popular” (adds a visual badge in frontend)
+Active (Visible on Website)	Toggle (boolean)	If ON, package appears in the “Mentoria Packages” section
+🧩 Frontend Display Requirements
+✅ Section Layout
+
+Title: Mentoria Packages
+
+Subtitle: “Choose the right Mentoria plan for your career growth.”
+
+Display all packages where Active = true, fetched dynamically from the database.
+
+🧱 Each Package Card Should Include:
+
+Package Name
+
+Category
+
+Price (₹)
+
+Features (displayed as a list)
+
+Popular badge (if marked)
+
+“Book Now” button (integrated with Razorpay checkout)
+
+Integrate Razorpay Checkout to enable secure online payments for each Mentoria Package.
+
+🧠 User Flow
+1. Click "Book Now"
+
+When the user clicks “Book Now” on a Mentoria package card:
+A form modal or page should open displaying:
+
+Package Name
+
+Price
+
+Category
+
+Short Description
+
+2. User Fills Out the Form
+
+The form should include these fields:
+
+Field	Type	Description
+Name	Text	Full name of the user
+Email	Email	User’s email address
+Contact Number	Phone	User’s 10-digit mobile number
+Package Name	Auto-filled	Comes from the selected Mentoria plan
+Pay Now Button	Button	Triggers Razorpay Checkout
+
+Validation:
+
+All fields are required.
+
+Email format should be valid.
+
+Contact number must be 10 digits.
+
+3. Razorpay Checkout Opens
+
+Once the user submits the form:
+Trigger Razorpay Checkout with the following details fetched from backend:
+
+Field	Source
+Package Name	From selected plan
+Amount	From database (converted to paise)
+Currency	INR
+Customer Name, Email, Contact	From user input
+Order ID	Generated on backend via Razorpay API
+Theme Color	Match Mentoria’s brand color
+Notes	Optional: Include package name, category, and user ID
