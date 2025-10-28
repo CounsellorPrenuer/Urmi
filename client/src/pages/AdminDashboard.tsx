@@ -64,11 +64,7 @@ const menuItems = [
     url: "/admin/dashboard/payments",
     icon: CreditCard,
   },
-  {
-    title: "Mentoria Payments",
-    url: "/admin/dashboard/mentoria-payments",
-    icon: CreditCard,
-  },
+ 
 ];
 
 function AdminSidebar() {
