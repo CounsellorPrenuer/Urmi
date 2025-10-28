@@ -28,6 +28,7 @@ import {
 import TestimonialsAdmin from "./admin/TestimonialsAdmin";
 import BlogsAdmin from "./admin/BlogsAdmin";
 import PackagesAdmin from "./admin/PackagesAdmin";
+import MentoriaPackagesAdmin from "./admin/MentoriaPackagesAdmin";
 import ContactSubmissionsAdmin from "./admin/ContactSubmissionsAdmin";
 import PaymentsAdmin from "./admin/PaymentsAdmin";
 
@@ -45,6 +46,11 @@ const menuItems = [
   {
     title: "Packages",
     url: "/admin/dashboard/packages",
+    icon: Package,
+  },
+  {
+    title: "Mentoria Packages",
+    url: "/admin/dashboard/mentoria-packages",
     icon: Package,
   },
   {
@@ -158,6 +164,7 @@ export default function AdminDashboard() {
             <Route path="/admin/dashboard/testimonials" component={TestimonialsAdmin} />
             <Route path="/admin/dashboard/blogs" component={BlogsAdmin} />
             <Route path="/admin/dashboard/packages" component={PackagesAdmin} />
+            <Route path="/admin/dashboard/mentoria-packages" component={MentoriaPackagesAdmin} />
             <Route path="/admin/dashboard/contacts" component={ContactSubmissionsAdmin} />
             <Route path="/admin/dashboard/payments" component={PaymentsAdmin} />
             <Route>

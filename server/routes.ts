@@ -428,25 +428,153 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Deprecated Razorpay routes - now using UPI payment system
+  // Mentoria Package Razorpay Payment Routes
+  app.post("/api/mentoria-payment/create-order", async (req, res) => {
+    try {
+      const { packageId, customerName, customerEmail, customerPhone } = req.body;
+      
+      if (!packageId || !customerName || !customerEmail || !customerPhone) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Missing required fields" 
+        });
+      }
+
+      const pkg = await storage.getMentoriaPackage(packageId);
+      if (!pkg) {
+        return res.status(404).json({ 
+          success: false, 
+          message: "Package not found" 
+        });
+      }
+
+      const Razorpay = (await import('razorpay')).default;
+      const razorpay = new Razorpay({
+        key_id: process.env.RAZORPAY_KEY_ID!,
+        key_secret: process.env.RAZORPAY_KEY_SECRET!,
+      });
+
+      const options = {
+        amount: pkg.price * 100,
+        currency: "INR",
+        receipt: `mentoria_${packageId}_${Date.now()}`,
+        notes: {
+          packageId: pkg.id,
+          packageName: pkg.name,
+          category: pkg.category,
+          customerName,
+          customerEmail,
+          customerPhone,
+        },
+      };
+
+      const order = await razorpay.orders.create(options);
+
+      await storage.createRazorpayOrder({
+        razorpayOrderId: order.id,
+        packageId: pkg.id,
+        packageName: pkg.name,
+        amount: pkg.price,
+        customerName,
+        customerEmail,
+        customerPhone,
+        status: "created",
+      });
+
+      res.json({ 
+        success: true, 
+        orderId: order.id,
+        amount: pkg.price,
+        currency: "INR",
+        keyId: process.env.RAZORPAY_KEY_ID
+      });
+    } catch (error) {
+      console.error("Create Razorpay order error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Error creating payment order" 
+      });
+    }
+  });
+
+  app.post("/api/mentoria-payment/verify", async (req, res) => {
+    try {
+      const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+      if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+        return res.status(400).json({ 
+          success: false, 
+          message: "Missing payment verification details" 
+        });
+      }
+
+      const storedOrder = await storage.getRazorpayOrderByOrderId(razorpay_order_id);
+      if (!storedOrder) {
+        return res.status(404).json({ 
+          success: false, 
+          message: "Order not found" 
+        });
+      }
+
+      const crypto = await import('crypto');
+      const shasum = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!);
+      shasum.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+      const digest = shasum.digest('hex');
+
+      if (digest === razorpay_signature) {
+        await storage.updateRazorpayOrderStatus(razorpay_order_id, "paid");
+        
+        await storage.createPaymentTracking({
+          razorpayOrderId: razorpay_order_id,
+          name: storedOrder.customerName,
+          email: storedOrder.customerEmail,
+          phone: storedOrder.customerPhone,
+          packageId: storedOrder.packageId,
+          packageName: storedOrder.packageName,
+          status: "success",
+        });
+
+        res.json({ 
+          success: true, 
+          message: "Payment verified successfully",
+          paymentId: razorpay_payment_id 
+        });
+      } else {
+        await storage.updateRazorpayOrderStatus(razorpay_order_id, "failed");
+        
+        res.status(400).json({ 
+          success: false, 
+          message: "Payment verification failed" 
+        });
+      }
+    } catch (error) {
+      console.error("Payment verification error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Error verifying payment" 
+      });
+    }
+  });
+
+  // Deprecated Razorpay routes for regular packages - now using UPI payment system
   app.post("/api/payment/create-order", (req, res) => {
     res.status(410).json({ 
       success: false, 
-      message: "Razorpay payment gateway deprecated. Please use UPI payment system." 
+      message: "Razorpay payment gateway deprecated for regular packages. Please use UPI payment system." 
     });
   });
 
   app.post("/api/payment/verify", (req, res) => {
     res.status(410).json({ 
       success: false, 
-      message: "Razorpay payment gateway deprecated. Please use UPI payment system." 
+      message: "Razorpay payment gateway deprecated for regular packages. Please use UPI payment system." 
     });
   });
 
   app.post("/api/payment/cancel", (req, res) => {
     res.status(410).json({ 
       success: false, 
-      message: "Razorpay payment gateway deprecated. Please use UPI payment system." 
+      message: "Razorpay payment gateway deprecated for regular packages. Please use UPI payment system." 
     });
   });
 

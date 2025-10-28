@@ -8,6 +8,7 @@ import { Methodology } from '@/components/sections/Methodology';
 import { Services } from '@/components/sections/Services';
 import { Founder } from '@/components/sections/Founder';
 import { Packages } from '@/components/sections/Packages';
+import { MentoriaPackages } from '@/components/sections/MentoriaPackages';
 import { Blog } from '@/components/sections/Blog';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { Mentoria } from '@/components/sections/Mentoria';
@@ -27,6 +28,7 @@ export default function Home() {
       <Services />
       <Founder />
       <Packages />
+      <MentoriaPackages />
       <Testimonials />
       <Blog />
       <Mentoria />
