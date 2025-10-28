@@ -8,10 +8,18 @@ import { Check, Star } from 'lucide-react';
 import type { MentoriaPackage } from '@shared/schema';
 import { MentoriaPaymentModal } from '@/components/MentoriaPaymentModal';
 
+const categories = [
+  '8-9 Students',
+  '10-12 Students',
+  'College Graduates',
+  'Working Professionals'
+];
+
 export function MentoriaPackages() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [selectedPackage, setSelectedPackage] = useState<MentoriaPackage | null>(null);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]);
 
   const { data: packages, isLoading } = useQuery<MentoriaPackage[]>({
     queryKey: ["/api/mentoria-packages/active"],
@@ -30,6 +38,8 @@ export function MentoriaPackages() {
     return null;
   }
 
+  const filteredPackages = packages.filter(pkg => pkg.category === selectedCategory);
+
   return (
     <section id="mentoria-packages" className="py-24 md:py-32 bg-gradient-to-br from-primary-purple/5 via-background to-secondary-blue/5" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
@@ -37,7 +47,7 @@ export function MentoriaPackages() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4" data-testid="text-mentoria-packages-title">
             Mentoria Packages
@@ -47,8 +57,30 @@ export function MentoriaPackages() {
           </p>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-3 mb-12"
+        >
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
+                selectedCategory === category
+                  ? 'bg-gradient-to-r from-primary-purple to-secondary-blue text-white shadow-lg scale-105'
+                  : 'bg-card hover-elevate text-foreground'
+              }`}
+              data-testid={`button-category-${category.toLowerCase().replace(/\s+/g, '-')}`}
+            >
+              {category.toUpperCase()}
+            </button>
+          ))}
+        </motion.div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {packages.map((pkg, index) => (
+          {filteredPackages.map((pkg, index) => (
             <motion.div
               key={pkg.id}
               initial={{ opacity: 0, y: 30 }}
