@@ -24,24 +24,21 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-8 inline-block bg-primary-purple/90 backdrop-blur-sm px-12 py-10 rounded-3xl shadow-2xl"
+          className="mb-8"
         >
           <img 
             src={logoImg} 
             alt="Claryntia Logo" 
-            className="w-32 h-32 mx-auto mb-6"
+            className="w-32 h-32 mx-auto mb-8"
             data-testid="img-logo"
           />
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-white">
-            Aligning Ambition with Clarity
-          </h1>
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-serif text-5xl md:text-7xl font-bold mb-6 sr-only"
+          className="font-serif text-5xl md:text-7xl font-bold mb-6"
           data-testid="text-hero-title"
         >
           Aligning Ambition with Clarity
