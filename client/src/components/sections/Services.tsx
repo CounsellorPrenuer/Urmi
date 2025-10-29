@@ -82,15 +82,15 @@ export function Services() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="h-full"
             >
-              <Card className="h-full glass-effect border border-card-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl overflow-visible" data-testid={`card-service-${index}`}>
+              <Card className="h-full bg-primary border border-primary-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl overflow-visible" data-testid={`card-service-${index}`}>
                 <CardHeader className="space-y-0 pb-4">
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-purple/10 to-secondary-blue/10 flex items-center justify-center mb-4 ${service.color}`}>
-                    <service.icon className="w-7 h-7" />
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4">
+                    <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <CardTitle className="font-serif text-xl">{service.title}</CardTitle>
+                  <CardTitle className="font-serif text-xl text-white">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
+                  <p className="text-white/90 text-sm leading-relaxed">{service.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
