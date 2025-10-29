@@ -36,7 +36,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Plus, Pencil, Trash2, Upload } from "lucide-react";
 import type { Blog } from "@shared/schema";
 import { ObjectUploader } from "@/components/ObjectUploader";
-import type { UploadResult } from "@uppy/core";
 
 const blogSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -149,7 +148,7 @@ export default function BlogsAdmin() {
     };
   };
 
-  const handleUploadComplete = async (result: UploadResult<Record<string, unknown>, Record<string, unknown>>) => {
+  const handleUploadComplete = async (result: { successful: Array<{ uploadURL: string }> }) => {
     if (result.successful && result.successful.length > 0) {
       const uploadURL = result.successful[0].uploadURL;
       
