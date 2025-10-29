@@ -72,7 +72,7 @@ export function Navbar() {
               className="w-12 h-12 object-contain transition-transform group-hover:rotate-6"
               data-testid="img-nav-logo"
             />
-            <span className="font-serif text-2xl font-bold bg-gradient-to-r from-primary-purple to-secondary-blue bg-clip-text text-transparent">
+            <span className="font-serif text-2xl font-bold text-white">
               Claryntia
             </span>
           </motion.a>
@@ -108,7 +108,7 @@ export function Navbar() {
           >
             <Button
               size="default"
-              className="bg-gradient-to-r from-primary-purple to-secondary-blue text-white rounded-full px-6"
+              className="bg-white text-primary hover:bg-white/90 rounded-full px-6"
               onClick={() => setIsModalOpen(true)}
               data-testid="button-nav-cta"
             >
@@ -170,7 +170,7 @@ export function Navbar() {
               >
                 <Button
                   size="default"
-                  className="w-full bg-gradient-to-r from-primary-purple to-secondary-blue text-white rounded-full"
+                  className="w-full bg-white text-primary hover:bg-white/90 rounded-full"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     setIsModalOpen(true);
