@@ -246,31 +246,67 @@ export default function BlogsAdmin() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="imageUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Image URL (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="https://example.com/image.jpg or upload below" data-testid="input-imageurl" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                <div className="space-y-4 p-4 border border-border rounded-lg bg-muted/30">
+                  <div className="flex items-center justify-between">
+                    <FormLabel className="text-base font-semibold">Blog Image (Optional)</FormLabel>
+                    {form.watch("imageUrl") && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => form.setValue("imageUrl", "")}
+                        data-testid="button-clear-image"
+                      >
+                        Clear Image
+                      </Button>
+                    )}
+                  </div>
+                  
+                  {form.watch("imageUrl") && (
+                    <div className="relative w-full h-48 rounded-lg overflow-hidden border border-border">
+                      <img 
+                        src={form.watch("imageUrl")} 
+                        alt="Blog preview" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   )}
-                />
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">or</span>
-                  <ObjectUploader
-                    maxNumberOfFiles={1}
-                    maxFileSize={10485760}
-                    onGetUploadParameters={handleGetUploadParameters}
-                    onComplete={handleUploadComplete}
-                    buttonVariant="outline"
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Image from Device
-                  </ObjectUploader>
+
+                  <FormField
+                    control={form.control}
+                    name="imageUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm font-normal">Enter Image URL</FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://example.com/image.jpg" data-testid="input-imageurl" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="h-px bg-border flex-1"></div>
+                    <span className="text-sm font-medium text-muted-foreground">OR</span>
+                    <div className="h-px bg-border flex-1"></div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-2">
+                    <ObjectUploader
+                      maxNumberOfFiles={1}
+                      maxFileSize={10485760}
+                      onGetUploadParameters={handleGetUploadParameters}
+                      onComplete={handleUploadComplete}
+                      buttonVariant="secondary"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload Image from Your Device
+                    </ObjectUploader>
+                    <p className="text-xs text-muted-foreground text-center">
+                      Max file size: 10 MB. Supported formats: JPG, PNG, GIF
+                    </p>
+                  </div>
                 </div>
                 <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending} data-testid="button-submit-blog">
                   {editingBlog ? "Update" : "Create"}
