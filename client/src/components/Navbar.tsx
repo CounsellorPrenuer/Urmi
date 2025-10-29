@@ -108,7 +108,7 @@ export function Navbar() {
           >
             <Button
               size="default"
-              className="bg-white text-primary hover:bg-white/90 rounded-full px-6"
+              className="bg-gradient-to-r from-white to-blue-50 text-primary hover:from-white/90 hover:to-blue-50/90 rounded-full px-6"
               onClick={() => setIsModalOpen(true)}
               data-testid="button-nav-cta"
             >
@@ -170,7 +170,7 @@ export function Navbar() {
               >
                 <Button
                   size="default"
-                  className="w-full bg-white text-primary hover:bg-white/90 rounded-full"
+                  className="w-full bg-gradient-to-r from-white to-blue-50 text-primary hover:from-white/90 hover:to-blue-50/90 rounded-full"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     setIsModalOpen(true);
