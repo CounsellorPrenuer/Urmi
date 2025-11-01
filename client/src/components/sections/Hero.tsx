@@ -20,9 +20,9 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary-purple/80 via-purple-700/80 to-purple-900/80" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Text Content */}
-          <div className="text-left">
+          <div className="text-center lg:text-left">
             <motion.h1
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -57,7 +57,7 @@ export function Hero() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
               <Button 
                 size="lg" 
@@ -85,7 +85,7 @@ export function Hero() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex justify-center lg:justify-start lg:pl-8"
+            className="flex justify-center"
           >
             <img 
               src={logoImg} 
