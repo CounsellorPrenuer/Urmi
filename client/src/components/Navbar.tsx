@@ -72,7 +72,7 @@ export function Navbar() {
               className="w-12 h-12 object-contain transition-transform group-hover:rotate-6"
               data-testid="img-nav-logo"
             />
-            <span className="font-serif text-2xl font-bold text-white">
+            <span className="font-serif text-2xl font-bold bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
               Claryntia
             </span>
           </motion.a>
