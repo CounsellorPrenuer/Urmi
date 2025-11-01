@@ -92,7 +92,11 @@ export function Navbar() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="text-white/90 hover:text-white font-medium transition-colors relative group cursor-pointer"
+                className={`font-medium transition-colors relative group cursor-pointer ${
+                  isPastHero 
+                    ? 'text-gray-900 hover:text-primary-purple' 
+                    : 'text-white/90 hover:text-white'
+                }`}
                 data-testid={`link-nav-${link.name.toLowerCase()}`}
               >
                 {link.name}
@@ -121,7 +125,7 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-white"
+            className={`md:hidden p-2 transition-colors ${isPastHero ? 'text-gray-900' : 'text-white'}`}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
