@@ -47,8 +47,8 @@ export function Navbar() {
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-primary/95 backdrop-blur-lg shadow-lg border-b border-primary-border text-primary-foreground'
-          : 'bg-primary text-primary-foreground'
+          ? 'bg-gray-900/95 backdrop-blur-lg shadow-lg border-b border-gray-800'
+          : 'bg-gray-900'
       }`}
       data-testid="nav-main"
     >
@@ -90,7 +90,7 @@ export function Navbar() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="text-primary-foreground/90 hover:text-primary-foreground font-medium transition-colors relative group cursor-pointer"
+                className="text-white/90 hover:text-white font-medium transition-colors relative group cursor-pointer"
                 data-testid={`link-nav-${link.name.toLowerCase()}`}
               >
                 {link.name}
@@ -119,7 +119,7 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-primary-foreground"
+            className="md:hidden p-2 text-white"
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
@@ -139,7 +139,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-primary/98 backdrop-blur-xl border-t border-primary-border"
+            className="md:hidden bg-gray-900/98 backdrop-blur-xl border-t border-gray-800"
             role="navigation"
             aria-label="Mobile navigation"
             data-testid="nav-mobile-menu"
@@ -156,7 +156,7 @@ export function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="block text-lg font-medium text-primary-foreground/90 hover:text-primary-foreground transition-colors py-2 cursor-pointer"
+                  className="block text-lg font-medium text-white/90 hover:text-white transition-colors py-2 cursor-pointer"
                   data-testid={`link-mobile-${link.name.toLowerCase()}`}
                 >
                   {link.name}

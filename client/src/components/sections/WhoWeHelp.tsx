@@ -14,13 +14,13 @@ const audiences = [
     icon: Briefcase,
     title: 'Working Professionals',
     description: 'Career transitions, purpose discovery, and work–life harmony.',
-    color: 'text-accent-orange',
+    color: 'text-primary-purple',
   },
   {
     icon: Building2,
     title: 'Corporates & Institutions',
     description: 'Workshops on mental resilience, leadership growth & wellbeing.',
-    color: 'text-secondary-blue',
+    color: 'text-primary-purple',
   },
   {
     icon: Heart,
@@ -64,7 +64,7 @@ export function WhoWeHelp() {
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-purple/10 to-secondary-blue/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${audience.color}`}>
                     <audience.icon className="w-8 h-8" />
                   </div>
-                  <CardTitle className="font-serif text-xl">{audience.title}</CardTitle>
+                  <CardTitle className="font-serif text-xl text-primary-purple">{audience.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground text-sm leading-relaxed">{audience.description}</p>

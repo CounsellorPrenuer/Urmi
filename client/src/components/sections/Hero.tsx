@@ -16,8 +16,8 @@ export function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 animate-gradient bg-gradient-to-br from-primary-purple via-secondary-blue to-accent-orange opacity-10" />
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-purple via-purple-700 to-purple-900">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-purple/80 via-purple-700/80 to-purple-900/80" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 text-center">
         <motion.div
@@ -38,7 +38,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-serif text-5xl md:text-7xl font-bold mb-6"
+          className="font-serif text-5xl md:text-7xl font-bold mb-6 text-accent-orange"
           data-testid="text-hero-title"
         >
           Aligning Ambition with Clarity
@@ -48,7 +48,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-3xl mx-auto"
+          className="text-xl md:text-2xl text-white mb-4 max-w-3xl mx-auto font-medium"
           data-testid="text-hero-subtitle"
         >
           Empowering Minds. Healing Hearts. Redefining Possibilities.
@@ -58,7 +58,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-lg text-muted-foreground mb-12 max-w-4xl mx-auto"
+          className="text-lg text-white/90 mb-12 max-w-4xl mx-auto"
           data-testid="text-hero-description"
         >
           Helping students, professionals, and organizations achieve harmony between career success and emotional well-being in today's fast-evolving world.
@@ -72,7 +72,7 @@ export function Hero() {
         >
           <Button 
             size="lg" 
-            className="bg-gradient-to-r from-primary-purple to-secondary-blue text-white px-8 py-6 text-lg rounded-full group"
+            className="bg-accent-orange hover:bg-accent-orange/90 text-white px-8 py-6 text-lg rounded-full group shadow-xl"
             data-testid="button-free-call"
             onClick={() => setIsModalOpen(true)}
           >
@@ -82,7 +82,7 @@ export function Hero() {
           <Button 
             size="lg" 
             variant="outline" 
-            className="px-8 py-6 text-lg rounded-full border-2 border-primary-purple text-primary-purple hover:bg-primary-purple hover:text-white transition-colors"
+            className="px-8 py-6 text-lg rounded-full border-2 border-white text-white hover:bg-white hover:text-primary-purple transition-colors"
             data-testid="button-learn-more"
             onClick={() => scrollToSection('#who-we-help')}
           >

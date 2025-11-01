@@ -8,25 +8,25 @@ const services = [
     icon: GraduationCap,
     title: 'Career Clarity & Guidance',
     description: 'For Students & Professionals. Structured counselling via Mentoria\'s certified platform.',
-    color: 'text-primary-purple',
+    color: 'text-blue-500',
   },
   {
     icon: Heart,
     title: 'Relationship Healing & Coaching',
     description: '1:1 personalized sessions to break repeating emotional cycles.',
-    color: 'text-accent-orange',
+    color: 'text-pink-500',
   },
   {
     icon: Sparkles,
     title: 'Energy Reading & Graphotherapy',
     description: 'Decode subconscious through handwriting & vibrational patterns.',
-    color: 'text-secondary-blue',
+    color: 'text-yellow-500',
   },
   {
     icon: BookOpen,
     title: 'Workshops & Seminars',
     description: 'For schools, colleges, and corporates — topics on wellbeing, communication & clarity.',
-    color: 'text-primary-purple',
+    color: 'text-green-500',
   },
 ];
 
@@ -82,15 +82,15 @@ export function Services() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="h-full"
             >
-              <Card className="h-full bg-primary border border-primary-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl overflow-visible" data-testid={`card-service-${index}`}>
+              <Card className="h-full bg-gradient-to-br from-primary-purple/20 to-purple-700/20 border border-primary-purple/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl overflow-visible" data-testid={`card-service-${index}`}>
                 <CardHeader className="space-y-0 pb-4">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-4">
-                    <service.icon className="w-7 h-7 text-white" />
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br from-white to-gray-100 flex items-center justify-center mb-4 ${service.color}`}>
+                    <service.icon className="w-7 h-7" />
                   </div>
-                  <CardTitle className="font-serif text-xl text-white">{service.title}</CardTitle>
+                  <CardTitle className="font-serif text-xl text-accent-orange">{service.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-white/90 text-sm leading-relaxed">{service.description}</p>
+                  <p className="text-foreground text-sm leading-relaxed">{service.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
