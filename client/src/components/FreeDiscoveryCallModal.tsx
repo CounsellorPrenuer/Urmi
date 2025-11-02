@@ -14,6 +14,7 @@ import logoImg from '@assets/Screenshot_2025-10-04_122812-removebg-preview_17595
 
 const discoveryCallFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(10, 'Please enter a valid phone number'),
   background: z.string().min(1, 'Please select your background'),
   briefMessage: z.string()
@@ -68,6 +69,7 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
     resolver: zodResolver(discoveryCallFormSchema),
     defaultValues: {
       name: '',
+      email: '',
       phone: '',
       background: '',
       briefMessage: '',
@@ -85,8 +87,8 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
         },
         body: JSON.stringify({
           name: data.name,
+          email: data.email,
           phone: data.phone,
-          email: '',
           purpose: 'Free Discovery Call',
           message: `Background: ${data.background}`,
           briefMessage: data.briefMessage || '',
@@ -196,6 +198,25 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
                         placeholder="Enter your full name"
                         {...field}
                         data-testid="input-discovery-name"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Address *</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        {...field}
+                        data-testid="input-discovery-email"
                       />
                     </FormControl>
                     <FormMessage />
