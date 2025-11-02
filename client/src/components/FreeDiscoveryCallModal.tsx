@@ -17,14 +17,11 @@ const discoveryCallFormSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(10, 'Please enter a valid phone number'),
   background: z.string().min(1, 'Please select your background'),
-  briefMessage: z.string()
-    .optional()
-    .refine((val) => {
-      if (!val || val.trim() === '') return true;
-      const wordCount = val.trim().split(/\s+/).length;
-      return wordCount <= 500;
-    }, { message: 'Brief message cannot exceed 500 words' })
-    .or(z.literal('')),
+  briefMessage: z.string().refine((val) => {
+    if (!val || val.trim() === '') return true;
+    const wordCount = val.trim().split(/\s+/).filter(word => word.length > 0).length;
+    return wordCount <= 500;
+  }, { message: 'Brief message cannot exceed 500 words' }).optional().or(z.literal('')),
 });
 
 type DiscoveryCallFormValues = z.infer<typeof discoveryCallFormSchema>;
@@ -90,8 +87,7 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
           email: data.email,
           phone: data.phone,
           purpose: 'Free Discovery Call',
-          message: `Background: ${data.background}`,
-          briefMessage: data.briefMessage || '',
+          message: `Background: ${data.background}${data.briefMessage ? `\n\nBrief Message: ${data.briefMessage}` : ''}`,
         }),
       });
 
