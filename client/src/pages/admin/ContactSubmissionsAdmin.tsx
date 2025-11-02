@@ -42,6 +42,7 @@ export default function ContactSubmissionsAdmin() {
                 <TableHead>Phone</TableHead>
                 <TableHead>Purpose</TableHead>
                 <TableHead>Message</TableHead>
+                <TableHead>Brief Message</TableHead>
                 <TableHead>Date</TableHead>
               </TableRow>
             </TableHeader>
@@ -55,6 +56,9 @@ export default function ContactSubmissionsAdmin() {
                     <Badge variant="outline" data-testid={`badge-purpose-${submission.id}`}>{submission.purpose}</Badge>
                   </TableCell>
                   <TableCell className="max-w-md truncate" data-testid={`text-message-${submission.id}`}>{submission.message}</TableCell>
+                  <TableCell className="max-w-md truncate" data-testid={`text-brief-message-${submission.id}`}>
+                    {submission.briefMessage || '-'}
+                  </TableCell>
                   <TableCell data-testid={`text-date-${submission.id}`}>{format(new Date(submission.createdAt), 'MMM d, yyyy')}</TableCell>
                 </TableRow>
               ))}
