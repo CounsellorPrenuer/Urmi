@@ -23,6 +23,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 import TestimonialsAdmin from "./admin/TestimonialsAdmin";
@@ -161,24 +162,32 @@ export default function AdminDashboard() {
     <SidebarProvider>
       <div className="flex h-screen w-full">
         <AdminSidebar />
-        <main className="flex-1 overflow-auto p-4 md:p-6">
-          <Switch>
-            <Route path="/admin/dashboard/testimonials" component={TestimonialsAdmin} />
-            <Route path="/admin/dashboard/blogs" component={BlogsAdmin} />
-            <Route path="/admin/dashboard/packages" component={PackagesAdmin} />
-            <Route path="/admin/dashboard/mentoria-packages" component={MentoriaPackagesAdmin} />
-            <Route path="/admin/dashboard/contacts" component={ContactSubmissionsAdmin} />
-            <Route path="/admin/dashboard/payments" component={PaymentsAdmin} />
-            <Route path="/admin/dashboard/mentoria-payments" component={MentoriaPaymentsAdmin} />
-            <Route>
-              <div className="text-center px-4">
-                <h1 className="text-2xl md:text-3xl font-bold mb-4">Welcome to Admin Dashboard</h1>
-                <p className="text-muted-foreground">
-                  Select an option from the sidebar to get started
-                </p>
-              </div>
-            </Route>
-          </Switch>
+        <main className="flex-1 overflow-auto">
+          {/* Mobile Header with Hamburger Menu */}
+          <div className="md:hidden sticky top-0 z-20 bg-background border-b px-4 py-3 flex items-center gap-3">
+            <SidebarTrigger data-testid="button-mobile-menu" />
+            <h2 className="font-semibold text-lg">Admin Dashboard</h2>
+          </div>
+          
+          <div className="p-4 md:p-6">
+            <Switch>
+              <Route path="/admin/dashboard/testimonials" component={TestimonialsAdmin} />
+              <Route path="/admin/dashboard/blogs" component={BlogsAdmin} />
+              <Route path="/admin/dashboard/packages" component={PackagesAdmin} />
+              <Route path="/admin/dashboard/mentoria-packages" component={MentoriaPackagesAdmin} />
+              <Route path="/admin/dashboard/contacts" component={ContactSubmissionsAdmin} />
+              <Route path="/admin/dashboard/payments" component={PaymentsAdmin} />
+              <Route path="/admin/dashboard/mentoria-payments" component={MentoriaPaymentsAdmin} />
+              <Route>
+                <div className="text-center px-4">
+                  <h1 className="text-2xl md:text-3xl font-bold mb-4">Welcome to Admin Dashboard</h1>
+                  <p className="text-muted-foreground">
+                    Select an option from the sidebar to get started
+                  </p>
+                </div>
+              </Route>
+            </Switch>
+          </div>
         </main>
       </div>
     </SidebarProvider>

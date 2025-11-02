@@ -58,7 +58,7 @@ export default function PaymentsAdmin() {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6 p-4 md:p-6">
+    <div className="space-y-4 md:space-y-6">
       <div>
         <h1 className="text-2xl md:text-3xl font-bold">Payment Tracking</h1>
         <p className="text-sm md:text-base text-muted-foreground">Monitor payment information before checkout</p>
