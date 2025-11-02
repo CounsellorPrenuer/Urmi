@@ -12,7 +12,7 @@ export function Footer() {
               <span className="font-serif text-2xl font-bold">Claryntia</span>
             </div>
             <p className="text-white/80 text-sm leading-relaxed">
-              Aligning Ambition with Clarity. Empowering minds, healing hearts, and redefining possibilities.
+              Aligning Ambition with Inner Clarity. Empowering minds, healing hearts, and redefining possibilities.
             </p>
           </div>
 
@@ -23,16 +23,6 @@ export function Footer() {
               <li><a href="#packages" className="hover:text-white transition-colors" data-testid="link-footer-packages">Packages</a></li>
               <li><a href="#blog" className="hover:text-white transition-colors" data-testid="link-footer-blog">Blog</a></li>
               <li><a href="#contact" className="hover:text-white transition-colors" data-testid="link-footer-contact">Contact</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-serif text-lg font-semibold mb-4">Trust & Ethics</h4>
-            <ul className="space-y-2 text-sm text-white/80">
-              <li>✓ 100% Confidential</li>
-              <li>✓ Authentic Certifications</li>
-              <li>✓ GDPR-Compliant</li>
-              <li>✓ Ethical & Client-Centered</li>
             </ul>
           </div>
         </div>

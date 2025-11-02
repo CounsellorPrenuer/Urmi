@@ -30,7 +30,7 @@ export function Hero() {
               className="font-serif text-4xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-accent-orange via-orange-500 to-orange-600 bg-clip-text text-transparent"
               data-testid="text-hero-title"
             >
-              Aligning Ambition with Clarity
+              Aligning Ambition with Inner Clarity
             </motion.h1>
 
             <motion.p
