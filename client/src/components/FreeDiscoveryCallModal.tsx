@@ -118,7 +118,7 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" data-testid="modal-free-discovery-call">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto" data-testid="modal-free-discovery-call">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-purple to-secondary-blue flex items-center justify-center">
@@ -135,55 +135,59 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
           </div>
         </DialogHeader>
 
-        <div className="space-y-6">
-          {/* What You'll Get */}
-          <div>
-            <h3 className="font-serif text-lg font-semibold mb-3 text-foreground flex items-center gap-2">
-              <Check className="w-5 h-5 text-green-600" />
-              What You'll Get (Free)
-            </h3>
-            <ul className="space-y-2">
-              {whatYouGet.map((item, index) => (
-                <li key={index} className="flex items-start gap-2 text-sm text-foreground">
-                  <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column - Text Content */}
+          <div className="space-y-6">
+            {/* What You'll Get */}
+            <div>
+              <h3 className="font-serif text-lg font-semibold mb-3 text-foreground flex items-center gap-2">
+                <Check className="w-5 h-5 text-green-600" />
+                What You'll Get (Free)
+              </h3>
+              <ul className="space-y-2">
+                {whatYouGet.map((item, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm text-foreground">
+                    <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Not Included */}
-          <div>
-            <h3 className="font-serif text-lg font-semibold mb-3 text-muted-foreground flex items-center gap-2">
-              <X className="w-5 h-5 text-muted-foreground" />
-              Not Included (Paid Only)
-            </h3>
-            <ul className="space-y-2">
-              {notIncluded.map((item, index) => (
-                <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground line-through">
-                  <X className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Not Included */}
+            <div>
+              <h3 className="font-serif text-lg font-semibold mb-3 text-muted-foreground flex items-center gap-2">
+                <X className="w-5 h-5 text-muted-foreground" />
+                Not Included (Paid Only)
+              </h3>
+              <ul className="space-y-2">
+                {notIncluded.map((item, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground line-through">
+                    <X className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Quick & Valuable Banner */}
-          <div className="bg-gradient-to-r from-primary-purple to-secondary-blue rounded-xl p-4">
-            <div className="flex items-center gap-3 text-white">
-              <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                <Phone className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-white">Quick & Valuable</h4>
-                <p className="text-sm text-white/90">Get clarity in just 10 minutes - no strings attached</p>
+            {/* Quick & Valuable Banner */}
+            <div className="bg-gradient-to-r from-primary-purple to-secondary-blue rounded-xl p-4">
+              <div className="flex items-center gap-3 text-white">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-white">Quick & Valuable</h4>
+                  <p className="text-sm text-white/90">Get clarity in just 10 minutes - no strings attached</p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Form */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {/* Right Column - Form */}
+          <div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="name"
@@ -309,8 +313,9 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
                   </>
                 )}
               </Button>
-            </form>
-          </Form>
+              </form>
+            </Form>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
