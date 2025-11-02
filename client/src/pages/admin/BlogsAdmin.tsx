@@ -36,6 +36,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Plus, Pencil, Trash2, Upload } from "lucide-react";
 import type { Blog } from "@shared/schema";
 import { ObjectUploader } from "@/components/ObjectUploader";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const blogSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -171,9 +172,12 @@ export default function BlogsAdmin() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Blogs</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Manage blog posts</p>
+        <div className="flex items-center gap-3">
+          <SidebarTrigger className="md:hidden" data-testid="button-mobile-menu-blogs" />
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold">Blogs</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Manage blog posts</p>
+          </div>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>

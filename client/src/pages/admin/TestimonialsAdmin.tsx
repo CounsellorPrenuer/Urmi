@@ -35,6 +35,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, Star } from "lucide-react";
 import type { Testimonial } from "@shared/schema";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const testimonialSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -139,9 +140,12 @@ export default function TestimonialsAdmin() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Testimonials</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Manage customer testimonials</p>
+        <div className="flex items-center gap-3">
+          <SidebarTrigger className="md:hidden" data-testid="button-mobile-menu-testimonials" />
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold">Testimonials</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Manage customer testimonials</p>
+          </div>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>

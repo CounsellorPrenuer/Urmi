@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Eye } from "lucide-react";
 import type { ContactSubmission } from "@shared/schema";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { format } from "date-fns";
 
 export default function ContactSubmissionsAdmin() {
@@ -29,9 +30,12 @@ export default function ContactSubmissionsAdmin() {
 
   return (
     <div className="space-y-4 md:space-y-6">
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold">Contact Submissions</h1>
-        <p className="text-sm md:text-base text-muted-foreground">View all contact form submissions</p>
+      <div className="flex items-center gap-3">
+        <SidebarTrigger className="md:hidden" data-testid="button-mobile-menu-contacts" />
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold">Contact Submissions</h1>
+          <p className="text-sm md:text-base text-muted-foreground">View all contact form submissions</p>
+        </div>
       </div>
 
       <Card>

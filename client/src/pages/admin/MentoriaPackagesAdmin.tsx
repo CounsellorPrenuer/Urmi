@@ -38,6 +38,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, Star, Eye, EyeOff } from "lucide-react";
 import type { MentoriaPackage } from "@shared/schema";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const mentoriaPackageSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -163,9 +164,12 @@ export default function MentoriaPackagesAdmin() {
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold">Mentoria Packages</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Manage Mentoria career guidance packages</p>
+        <div className="flex items-center gap-3">
+          <SidebarTrigger className="md:hidden" data-testid="button-mobile-menu-mentoria-packages" />
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold">Mentoria Packages</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Manage Mentoria career guidance packages</p>
+          </div>
         </div>
         <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
           <DialogTrigger asChild>
