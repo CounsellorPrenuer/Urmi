@@ -83,15 +83,36 @@ export function Hero() {
           {/* Right Side - Logo */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            animate={{ 
+              opacity: 1, 
+              x: 0,
+              y: [0, -20, 0]
+            }}
+            transition={{ 
+              opacity: { duration: 0.8, delay: 0.3 },
+              x: { duration: 0.8, delay: 0.3 },
+              y: { 
+                duration: 3, 
+                repeat: Infinity, 
+                ease: "easeInOut",
+                delay: 0.3
+              }
+            }}
             className="flex justify-center"
           >
-            <img 
+            <motion.img 
               src={logoImg} 
               alt="Claryntia Logo" 
               className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 object-contain"
               data-testid="img-logo"
+              animate={{
+                rotate: [0, 5, 0, -5, 0]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
             />
           </motion.div>
         </div>
