@@ -53,7 +53,7 @@ export function Navbar() {
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isPastHero
-          ? 'bg-emerald-600/90 backdrop-blur-lg shadow-lg border-b border-emerald-700'
+          ? 'bg-white/80 backdrop-blur-lg shadow-lg border-b border-gray-200'
           : 'bg-transparent'
       }`}
       data-testid="nav-main"
@@ -78,7 +78,7 @@ export function Navbar() {
               className="w-12 h-12 object-contain transition-transform group-hover:rotate-6"
               data-testid="img-nav-logo"
             />
-            <span className={`font-serif text-2xl font-bold transition-colors duration-300 ${isPastHero ? 'text-white' : 'text-white'}`}>
+            <span className={`font-serif text-2xl font-bold transition-colors duration-300 ${isPastHero ? 'text-primary-purple' : 'text-white'}`}>
               Claryntia
             </span>
           </motion.a>
@@ -98,7 +98,7 @@ export function Navbar() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className={`font-medium transition-colors relative group cursor-pointer ${
                   isPastHero 
-                    ? 'text-white/90 hover:text-white' 
+                    ? 'text-gray-900 hover:text-primary-purple' 
                     : 'text-white/90 hover:text-white'
                 }`}
                 data-testid={`link-nav-${link.name.toLowerCase()}`}
@@ -129,7 +129,7 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden p-2 transition-colors ${isPastHero ? 'text-white' : 'text-white'}`}
+            className={`md:hidden p-2 transition-colors ${isPastHero ? 'text-gray-900' : 'text-white'}`}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
