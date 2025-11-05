@@ -67,8 +67,8 @@ export function Methodology() {
                 <div className={`text-6xl font-serif font-bold bg-gradient-to-r ${step.color} bg-clip-text text-transparent mb-6`}>
                   {step.number}
                 </div>
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-purple/10 to-secondary-blue/10 flex items-center justify-center mb-6">
-                  <step.icon className="w-7 h-7 text-primary-purple" />
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center mb-6">
+                  <step.icon className="w-7 h-7 text-emerald-600" />
                 </div>
                 <h3 className="font-serif text-xl font-semibold mb-3">{step.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>

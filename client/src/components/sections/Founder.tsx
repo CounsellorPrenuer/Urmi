@@ -66,8 +66,8 @@ export function Founder() {
                     transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                     className="flex items-start gap-3"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-primary-purple/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <credential.icon className="w-5 h-5 text-primary-purple" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <credential.icon className="w-5 h-5 text-emerald-600" />
                     </div>
                     <p className="text-sm text-foreground pt-2">{credential.text}</p>
                   </motion.div>

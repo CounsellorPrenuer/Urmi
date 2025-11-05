@@ -54,8 +54,8 @@ export function ChangingLandscape() {
               transition={{ duration: 0.6, delay: index * 0.15 }}
             >
               <Card className="glass-effect border border-card-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:bg-emerald-50/30 rounded-2xl p-8 text-center cursor-default" data-testid={`card-insight-${index}`}>
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-purple/20 to-secondary-blue/20 flex items-center justify-center mx-auto mb-6">
-                  <insight.icon className="w-8 h-8 text-primary-purple" />
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center mx-auto mb-6">
+                  <insight.icon className="w-8 h-8 text-emerald-600" />
                 </div>
                 <div className="font-serif text-5xl font-bold text-accent-orange mb-4">{insight.stat}</div>
                 <p className="text-muted-foreground leading-relaxed">{insight.description}</p>

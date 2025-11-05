@@ -9,28 +9,28 @@ const audiences = [
     title: 'Students & Parents',
     description: 'Guiding academic and career choices with clarity and confidence.',
     color: 'text-secondary-blue',
-    bgGradient: 'from-secondary-blue/10 to-secondary-blue/5',
+    bgGradient: 'from-emerald-50 to-emerald-100',
   },
   {
     icon: Briefcase,
     title: 'Working Professionals',
     description: 'Career transitions, purpose discovery, and work–life harmony.',
     color: 'text-accent-orange',
-    bgGradient: 'from-accent-orange/10 to-accent-orange/5',
+    bgGradient: 'from-emerald-50 to-emerald-100',
   },
   {
     icon: Building2,
     title: 'Corporates & Institutions',
     description: 'Workshops on mental resilience, leadership growth & wellbeing.',
     color: 'text-primary-purple',
-    bgGradient: 'from-primary-purple/10 to-primary-purple/5',
+    bgGradient: 'from-emerald-50 to-emerald-100',
   },
   {
     icon: Heart,
     title: 'Individuals (21–75 Years)',
     description: 'Healing subconscious patterns, improving relationships & emotional alignment.',
     color: 'text-rose-500',
-    bgGradient: 'from-rose-500/10 to-rose-500/5',
+    bgGradient: 'from-emerald-50 to-emerald-100',
   },
 ];
 

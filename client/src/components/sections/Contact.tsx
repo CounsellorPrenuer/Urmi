@@ -263,10 +263,10 @@ export function Contact() {
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                 >
-                  <Card className="glass-effect border border-card-border shadow-lg p-6 rounded-2xl hover:shadow-xl transition-shadow" data-testid={`contact-${info.label.toLowerCase()}`}>
+                  <Card className="glass-effect border border-card-border shadow-lg p-6 rounded-2xl hover:shadow-xl hover:bg-emerald-50/30 transition-all" data-testid={`contact-${info.label.toLowerCase()}`}>
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-purple/20 to-secondary-blue/20 flex items-center justify-center flex-shrink-0">
-                        <info.icon className="w-7 h-7 text-primary-purple" />
+                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
+                        <info.icon className="w-7 h-7 text-emerald-600" />
                       </div>
                       <div className="flex-1">
                         <div className="text-sm text-muted-foreground mb-1">{info.label}</div>
@@ -304,7 +304,7 @@ export function Contact() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
-                    className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-purple/10 to-secondary-blue/10 flex items-center justify-center hover:from-primary-purple hover:to-secondary-blue hover:text-white transition-all group"
+                    className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-purple/10 to-secondary-blue/10 flex items-center justify-center hover:from-emerald-500 hover:to-emerald-600 hover:text-white transition-all group"
                     data-testid={`social-${social.label.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     <social.icon className="w-5 h-5 text-primary-purple group-hover:text-white transition-colors" />
