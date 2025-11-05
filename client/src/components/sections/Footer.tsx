@@ -33,7 +33,7 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-2 text-sm text-white/80">
             <span>Made with</span>
-            <Heart className="w-4 h-4 fill-current" />
+            <Heart className="w-4 h-4 text-red fill-current" />
             <span>by Mentoria</span>
           </div>
         </div>
