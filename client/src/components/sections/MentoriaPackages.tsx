@@ -69,7 +69,7 @@ export function MentoriaPackages() {
               onClick={() => setSelectedCategory(category)}
               className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-primary-purple to-secondary-blue text-white shadow-lg scale-105'
+                  ? 'bg-primary-purple text-white shadow-lg scale-105'
                   : 'bg-card hover-elevate text-foreground'
               }`}
               data-testid={`button-category-${category.toLowerCase().replace(/\s+/g, '-')}`}
