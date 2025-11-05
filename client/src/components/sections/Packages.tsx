@@ -206,7 +206,7 @@ export function Packages() {
                     className="flex-[0_0_100%] min-w-0 md:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)]"
                   >
                     <Card
-                      className="h-full flex flex-col glass-effect border border-card-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-3xl"
+                      className="h-full flex flex-col glass-effect border border-card-border shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-emerald-50/30 rounded-3xl"
                       data-testid={`card-package-${index}`}
                     >
                       <CardHeader className="space-y-0 pb-6 pt-8">

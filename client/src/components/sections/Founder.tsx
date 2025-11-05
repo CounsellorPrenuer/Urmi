@@ -87,7 +87,7 @@ export function Founder() {
               <img
                 src={founderImg}
                 alt="Urmi Dasgupta - Founder"
-                className="relative rounded-3xl shadow-2xl w-full h-auto object-contain"
+                className="relative rounded-3xl shadow-2xl w-full h-96 object-cover"
                 data-testid="img-founder"
               />
             </div>

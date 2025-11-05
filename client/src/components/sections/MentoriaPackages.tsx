@@ -89,7 +89,7 @@ export function MentoriaPackages() {
               className="h-full"
             >
               <Card 
-                className={`h-full glass-effect shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl flex flex-col ${
+                className={`h-full glass-effect shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-emerald-50/30 rounded-2xl flex flex-col ${
                   pkg.isPopular ? 'border-2 border-primary-purple' : 'border border-card-border'
                 }`}
                 data-testid={`card-mentoria-package-${pkg.id}`}

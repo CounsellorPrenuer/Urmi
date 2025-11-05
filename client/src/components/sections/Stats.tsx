@@ -41,7 +41,7 @@ function AnimatedStat({ end, suffix, label, delay }: StatProps) {
       transition={{ duration: 0.6, delay }}
       className="text-center"
     >
-      <div className="font-serif text-4xl md:text-6xl font-bold text-primary-purple mb-2" data-testid={`stat-${label.toLowerCase().replace(/\s+/g, '-')}`}>
+      <div className="font-serif text-4xl md:text-6xl font-bold text-emerald-600 mb-2" data-testid={`stat-${label.toLowerCase().replace(/\s+/g, '-')}`}>
         {count.toLocaleString()}{suffix}
       </div>
       <div className="text-muted-foreground text-sm md:text-base">{label}</div>

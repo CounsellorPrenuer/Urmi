@@ -27,7 +27,7 @@ export function Hero() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="font-serif text-4xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent"
+              className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 bg-clip-text text-transparent"
               data-testid="text-hero-title"
             >
               Aligning Ambition with Inner Clarity
@@ -37,7 +37,7 @@ export function Hero() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl md:text-2xl text-white mb-4 font-medium"
+              className="text-2xl md:text-3xl text-white mb-4 font-medium"
               data-testid="text-hero-subtitle"
             >
               Empowering Minds. Healing Hearts. Redefining Possibilities.
@@ -47,7 +47,7 @@ export function Hero() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg text-white/90 mb-8"
+              className="text-xl md:text-2xl text-white/90 mb-8"
               data-testid="text-hero-description"
             >
               Helping students, professionals, and organizations achieve harmony between career success and emotional well-being in today's fast-evolving world.
