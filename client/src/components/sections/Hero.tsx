@@ -61,7 +61,7 @@ export function Hero() {
             >
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-orange-600 via-orange-700 to-orange-800 hover:from-orange-700 hover:via-orange-800 hover:to-orange-900 text-white px-8 py-6 text-lg rounded-full group shadow-xl"
+                className="bg-gradient-to-r from-emerald-500 via-emerald-600 to-emerald-700 hover:from-emerald-600 hover:via-emerald-700 hover:to-emerald-800 text-white px-8 py-6 text-lg rounded-full group shadow-xl"
                 data-testid="button-free-call"
                 onClick={() => setIsModalOpen(true)}
               >
