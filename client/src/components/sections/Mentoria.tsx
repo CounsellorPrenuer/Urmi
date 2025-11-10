@@ -40,7 +40,7 @@ export function Mentoria() {
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="glass-effect border border-card-border shadow-lg p-6 text-center rounded-2xl hover:shadow-xl hover:bg-emerald-50/30 transition-all" data-testid={`stat-mentoria-${index}`}>
+              <Card className="glass-effect border border-card-border shadow-lg p-6 text-center rounded-2xl hover:shadow-xl hover:bg-emerald-500/10 transition-all" data-testid={`stat-mentoria-${index}`}>
                 <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center mx-auto mb-4">
                   <stat.icon className={`w-7 h-7 ${stat.iconColor}`} />
                 </div>

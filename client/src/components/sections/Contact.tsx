@@ -263,7 +263,7 @@ export function Contact() {
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                 >
-                  <Card className="glass-effect border border-card-border shadow-lg p-6 rounded-2xl hover:shadow-xl hover:bg-emerald-50/30 transition-all" data-testid={`contact-${info.label.toLowerCase()}`}>
+                  <Card className="glass-effect border border-card-border shadow-lg p-6 rounded-2xl hover:shadow-xl hover:bg-emerald-500/10 transition-all" data-testid={`contact-${info.label.toLowerCase()}`}>
                     <div className="flex items-center gap-4">
                       <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center flex-shrink-0">
                         <info.icon className={`w-7 h-7 ${info.iconColor}`} />
