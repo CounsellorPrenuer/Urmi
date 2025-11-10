@@ -9,10 +9,10 @@ export function Founder() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
   const credentials = [
-    { icon: Heart, text: 'Certified Relationship Healer & Career Coach' },
-    { icon: Briefcase, text: '20+ Years in Talent Development & Leadership' },
-    { icon: GraduationCap, text: 'Expert in Subconscious Mind Reprogramming' },
-    { icon: Award, text: 'Mentoria Partner — India\'s Highest Rated Platform' },
+    { icon: Heart, text: 'Certified Relationship Healer & Career Coach', iconColor: 'text-rose-500' },
+    { icon: Briefcase, text: '20+ Years in Talent Development & Leadership', iconColor: 'text-secondary-blue' },
+    { icon: GraduationCap, text: 'Expert in Subconscious Mind Reprogramming', iconColor: 'text-accent-orange' },
+    { icon: Award, text: 'Mentoria Partner — India\'s Highest Rated Platform', iconColor: 'text-green-600' },
   ];
 
   return (
@@ -67,7 +67,7 @@ export function Founder() {
                     className="flex items-start gap-3"
                   >
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <credential.icon className="w-5 h-5 text-emerald-600" />
+                      <credential.icon className={`w-5 h-5 ${credential.iconColor}`} />
                     </div>
                     <p className="text-sm text-foreground pt-2">{credential.text}</p>
                   </motion.div>
