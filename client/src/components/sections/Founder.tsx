@@ -51,7 +51,7 @@ export function Founder() {
                   As a Certified Relationship Healer, Graphotherapist, and Career Coach, her mission is to bring clarity, 
                   balance, and confidence to every client she meets.
                 </p>
-                <blockquote className="border-l-4 border-primary-purple pl-6 italic text-foreground text-lg mb-8">
+                <blockquote className="border-l-4 border-primary-purple pl-6 italic text-accent-orange text-lg mb-8">
                   "When your inner world finds peace, your outer world begins to flourish."
                 </blockquote>
               </div>
