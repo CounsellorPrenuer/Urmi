@@ -177,7 +177,7 @@ export function FreeDiscoveryCallModal({ open, onOpenChange }: FreeDiscoveryCall
                 </div>
                 <div>
                   <h4 className="font-semibold text-white">Quick & Valuable</h4>
-                  <p className="text-sm text-white/90">Get clarity in just 10 minutes - no strings attached</p>
+                  <p className="text-sm text-white/90">Get clarity in just 30 minutes - no strings attached</p>
                 </div>
               </div>
             </div>
