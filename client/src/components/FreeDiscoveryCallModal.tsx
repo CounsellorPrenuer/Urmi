@@ -31,7 +31,7 @@ interface FreeDiscoveryCallModalProps {
 }
 
 const whatYouGet = [
-  '10-min focused discussion about your career situation',
+  '30-min focused discussion about your career situation',
   'Actionable roadmap with 2-3 immediate next steps',
   'Expert assessment of your primary career challenge',
   'Personalized guidance based on your background',
