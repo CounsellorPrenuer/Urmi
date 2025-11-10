@@ -8,7 +8,7 @@ const insights = [
     icon: Brain,
     stat: '70%',
     description: 'of professionals feel stuck despite career success',
-    iconColor: 'text-primary-purple',
+    iconColor: 'text-secondary-blue',
   },
   {
     icon: Sparkles,
