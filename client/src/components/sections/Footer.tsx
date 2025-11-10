@@ -43,11 +43,11 @@ export function Footer() {
           <div>
             <h4 className="font-serif text-lg font-semibold mb-6 text-emerald-100">Our Services</h4>
             <ul className="space-y-3 text-sm text-white/90">
-              <li className="hover:text-emerald-300 transition-colors cursor-default">Career Clarity & Guidance</li>
-              <li className="hover:text-emerald-300 transition-colors cursor-default">Relationship Healing</li>
-              <li className="hover:text-emerald-300 transition-colors cursor-default">Energy Reading</li>
-              <li className="hover:text-emerald-300 transition-colors cursor-default">Workshops & Seminars</li>
-              <li className="hover:text-emerald-300 transition-colors cursor-default">Mentoria Packages</li>
+              <li><a href="#services" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer">Career Clarity & Guidance</a></li>
+              <li><a href="#services" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer">Relationship Healing</a></li>
+              <li><a href="#services" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer">Energy Reading</a></li>
+              <li><a href="#services" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer">Workshops & Seminars</a></li>
+              <li><a href="#mentoria-packages" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer">Mentoria Packages</a></li>
             </ul>
           </div>
 
