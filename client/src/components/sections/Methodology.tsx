@@ -42,7 +42,7 @@ export function Methodology() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section className="py-24 md:py-32 bg-background" ref={ref}>
+    <section id="methodology" className="py-24 md:py-32 bg-background" ref={ref}>
       <div className="max-w-7xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

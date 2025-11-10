@@ -16,13 +16,13 @@ export function Footer() {
               Aligning Ambition with Inner Clarity. Empowering minds, healing hearts, and redefining possibilities.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-instagram">
+              <a href="https://www.instagram.com/urmidasgupta" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-instagram">
                 <Instagram className="w-5 h-5 text-emerald-100" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-linkedin">
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-linkedin">
                 <Linkedin className="w-5 h-5 text-emerald-100" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-facebook">
+              <a href="https://www.facebook.com/urmi.dasgupta" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-facebook">
                 <Facebook className="w-5 h-5 text-emerald-100" />
               </a>
             </div>
@@ -31,11 +31,12 @@ export function Footer() {
           <div>
             <h4 className="font-serif text-lg font-semibold mb-6 text-emerald-100">Quick Links</h4>
             <ul className="space-y-3 text-sm text-white/90">
-              <li><a href="#services" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all" data-testid="link-footer-services">Services</a></li>
-              <li><a href="#packages" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all" data-testid="link-footer-packages">Packages</a></li>
-              <li><a href="#methodology" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all" data-testid="link-footer-methodology">Methodology</a></li>
-              <li><a href="#blog" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all" data-testid="link-footer-blog">Blog</a></li>
-              <li><a href="#contact" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all" data-testid="link-footer-contact">Contact</a></li>
+              <li><a href="#services" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer" data-testid="link-footer-services">Services</a></li>
+              <li><a href="#packages" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer" data-testid="link-footer-packages">Packages</a></li>
+              <li><a href="#methodology" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer" data-testid="link-footer-methodology">Methodology</a></li>
+              <li><a href="#founder" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer" data-testid="link-footer-about">About</a></li>
+              <li><a href="#blog" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer" data-testid="link-footer-blog">Blog</a></li>
+              <li><a href="#contact" className="hover:text-emerald-300 hover:translate-x-1 inline-block transition-all cursor-pointer" data-testid="link-footer-contact">Contact</a></li>
             </ul>
           </div>
 
