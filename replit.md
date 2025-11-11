@@ -45,6 +45,15 @@ Each section uses intersection observers to trigger animations when scrolling in
 - Full accessibility support (ARIA labels, keyboard navigation)
 - CTA button for quick booking access
 
+**Testimonials Display**: Infinite scrolling carousel component featuring:
+- Avatar component displaying profile pictures or initials fallback
+- Profile pictures loaded from object storage when available
+- Fallback to initials (first letters of name) with gradient background (purple to blue)
+- Purple border (2px) around all avatars for brand consistency
+- Star rating visualization (1-5 stars)
+- Smooth horizontal scroll animation with pause on hover
+- Real-time data fetching from testimonials API
+
 ### Backend Architecture
 
 **Server Framework**: Express.js running on Node.js with TypeScript.
@@ -119,6 +128,10 @@ Each section uses intersection observers to trigger animations when scrolling in
   - Modal dialogs for create/edit operations
   - Success/error toast notifications
   - Logout functionality with session cleanup
+  - Image upload support for testimonials and blogs using ObjectUploader component
+    - Testimonial profile pictures stored in object storage
+    - Blog featured images with migration endpoint for production fixes
+    - Automatic URL normalization to `/objects/` prefix
 
 ### Data Storage
 
@@ -127,7 +140,7 @@ Each section uses intersection observers to trigger animations when scrolling in
 **Schema Design**: Defines the following tables:
 - `users` table: UUID primary keys, username and password fields (for admin authentication)
 - `contact_submissions` table: UUID primary keys, name, email, phone, purpose, message, and createdAt timestamp
-- `testimonials` table: UUID primary keys, name, role, content, rating (1-5), and createdAt timestamp
+- `testimonials` table: UUID primary keys, name, role, content, rating (1-5), imageUrl (optional), and createdAt timestamp
 - `blogs` table: UUID primary keys, title, excerpt, content, author, imageUrl (optional), and createdAt timestamp
 - `packages` table: UUID primary keys, name, description, price, duration, features array, and createdAt timestamp
 - `payment_tracking` table: UUID primary keys, name, email, phone, packageId, packageName, status, and createdAt timestamp
