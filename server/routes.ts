@@ -712,25 +712,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const fs = await import('fs/promises');
       const path = await import('path');
       
-      // Map of testimonial names to stock images
+      // Map of testimonial names to UNIQUE stock images - each testimonial gets a different photo
       const imageAssignments = {
+        // Women - using woman and diverse images
         'Anshu Aggarwal': 'professional_woman_h_30c2f2ce.jpg',
-        'Barinder Bedi': 'professional_man_hea_984d4343.jpg',
         'Suneeta Sodhi': 'professional_woman_h_53c5cc03.jpg',
         'Kavya Shaji': 'professional_woman_h_5d9e4850.jpg',
+        'Prajakta Keni': 'professional_busines_e3c10e8c.jpg',
+        'Rina Jani': 'professional_busines_aeda39b1.jpg',
+        'Archana Khosa': 'professional_busines_b344a90e.jpg',
+        'Sarah Johnson': 'professional_busines_f0eb240d.jpg',
+        'Neha Mehta': 'professional_diverse_7512fa13.jpg',
+        'Divya K': 'professional_diverse_96d9bf99.jpg',
+        'Suzanne': 'professional_diverse_4c963be5.jpg',
+        // Men - using man and diverse images
+        'Barinder Bedi': 'professional_man_hea_984d4343.jpg',
         'Amit': 'professional_man_hea_ef85437d.jpg',
         'Saurabh Chandel': 'professional_man_hea_3364bfac.jpg',
-        'Prajakta Keni': 'professional_woman_h_30c2f2ce.jpg',
-        'Thakur Singh': 'professional_man_hea_984d4343.jpg',
-        'Divya K': 'professional_diverse_96d9bf99.jpg',
-        'Neha Mehta': 'professional_diverse_7512fa13.jpg',
-        'Vijay Kumar': 'professional_man_hea_ef85437d.jpg',
-        'Avichal': 'professional_diverse_ca85497e.jpg',
-        'Mithra Suresh': 'professional_diverse_4c963be5.jpg',
-        'Suzanne': 'professional_woman_h_5d9e4850.jpg',
-        'Rina Jani': 'professional_diverse_7512fa13.jpg',
-        'Archana Khosa': 'professional_woman_h_53c5cc03.jpg',
-        'Sarah Johnson': 'professional_diverse_96d9bf99.jpg'
+        'Thakur Singh': 'professional_busines_bdbde26e.jpg',
+        'Vijay Kumar': 'professional_busines_ad85ad99.jpg',
+        'Avichal': 'professional_busines_dbb32723.jpg',
+        'Mithra Suresh': 'professional_diverse_ca85497e.jpg'
       };
 
       const testimonials = await storage.getTestimonials();
