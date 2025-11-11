@@ -65,7 +65,7 @@ export function Hero() {
                 data-testid="button-free-call"
                 onClick={() => setIsModalOpen(true)}
               >
-                Free Clarity Discovery Call
+                Free Clarity Call
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
