@@ -17,6 +17,7 @@ export function Testimonials() {
     title: testimonial.rating > 0 && testimonial.rating <= 5 
       ? Array.from({ length: testimonial.rating }).map(() => '⭐').join('') 
       : '',
+    imageUrl: testimonial.imageUrl || undefined,
   }));
 
   return (

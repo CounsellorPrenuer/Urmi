@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState, useRef } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const InfiniteMovingCards = ({
   items,
@@ -12,6 +13,7 @@ export const InfiniteMovingCards = ({
     quote: string;
     name: string;
     title: string;
+    imageUrl?: string;
   }[];
   direction?: "left" | "right";
   speed?: "fast" | "normal" | "slow";
@@ -100,7 +102,13 @@ export const InfiniteMovingCards = ({
               <span className="relative z-20 text-sm leading-[1.6] text-muted-foreground font-normal">
                 {item.quote}
               </span>
-              <div className="relative z-20 mt-6 flex flex-row items-center">
+              <div className="relative z-20 mt-6 flex flex-row items-center gap-3">
+                <Avatar className="w-12 h-12 border-2 border-primary-purple">
+                  {item.imageUrl && <AvatarImage src={item.imageUrl} alt={item.name} />}
+                  <AvatarFallback className="bg-gradient-to-br from-primary-purple to-secondary-blue text-white font-semibold">
+                    {item.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                  </AvatarFallback>
+                </Avatar>
                 <span className="flex flex-col gap-1">
                   <span className="text-sm leading-[1.6] text-foreground font-semibold">
                     {item.name}

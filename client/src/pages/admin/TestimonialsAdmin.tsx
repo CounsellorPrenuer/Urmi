@@ -124,25 +124,29 @@ export default function TestimonialsAdmin() {
   };
 
   const handleGetUploadParameters = async () => {
-    const response = await apiRequest("GET", "/api/objects/upload");
+    const response = await apiRequest("POST", "/api/objects/upload", {});
     const data = await response.json();
     return {
-      uploadURL: data.uploadURL,
-      fields: {},
+      method: "PUT" as const,
+      url: data.uploadURL,
     };
   };
 
-  const handleUploadComplete = async (uploadResult: { signedURL: string }) => {
-    const response = await apiRequest("POST", "/api/objects/upload", {
-      imageURL: uploadResult.signedURL,
-    });
-
-    const data = await response.json();
-    form.setValue("imageUrl", data.objectPath);
-    toast({ 
-      title: "Image uploaded successfully",
-      description: "Profile picture has been set"
-    });
+  const handleUploadComplete = async (result: { successful: Array<{ uploadURL: string }> }) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadURL = result.successful[0].uploadURL;
+      
+      const response = await apiRequest("POST", "/api/objects/upload", {
+        imageURL: uploadURL,
+      });
+      const data = await response.json();
+      
+      form.setValue("imageUrl", data.objectPath);
+      toast({ 
+        title: "Image uploaded successfully",
+        description: "Profile picture has been set"
+      });
+    }
   };
 
   const handleDelete = (id: string) => {
