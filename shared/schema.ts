@@ -25,6 +25,7 @@ export const testimonials = pgTable("testimonials", {
   name: text("name").notNull(),
   content: text("content").notNull(),
   rating: integer("rating").notNull(),
+  imageUrl: text("image_url"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
