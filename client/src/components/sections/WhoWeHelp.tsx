@@ -88,7 +88,7 @@ export function WhoWeHelp() {
             <h3 className="font-serif text-3xl font-bold mb-4">
               The Transformation Starts Within
             </h3>
-            <p className="text-xl text-muted-foreground italic mb-6">
+            <p className="text-xl text-accent-orange italic mb-6">
               "Healing isn't just recovery—it's rediscovery."
             </p>
             <p className="text-muted-foreground leading-relaxed">
