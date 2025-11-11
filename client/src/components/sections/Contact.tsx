@@ -273,12 +273,12 @@ export function Contact() {
                         {info.href ? (
                           <a
                             href={info.href}
-                            className="text-foreground font-medium hover:text-primary-purple transition-colors"
+                            className="text-primary-purple font-medium hover:text-primary-purple/80 transition-colors"
                           >
                             {info.value}
                           </a>
                         ) : (
-                          <div className="text-foreground font-medium">{info.value}</div>
+                          <div className="text-primary-purple font-medium">{info.value}</div>
                         )}
                       </div>
                     </div>
