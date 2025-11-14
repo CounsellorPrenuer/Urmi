@@ -86,7 +86,7 @@ export function Services() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="h-full"
             >
-              <Card className="h-full bg-gradient-to-br from-primary-purple/80 to-purple-700/80 hover:from-amber-400 hover:to-yellow-600 border border-primary-purple/30 hover:border-amber-400/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl overflow-visible" data-testid={`card-service-${index}`}>
+              <Card className="h-full bg-gradient-to-br from-primary-purple/80 to-purple-700/80 border border-primary-purple/30 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-accent-orange/10 rounded-2xl overflow-visible" data-testid={`card-service-${index}`}>
                 <CardHeader className="space-y-0 pb-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center mb-4">
                     <service.icon className={`w-7 h-7 ${service.color}`} />
