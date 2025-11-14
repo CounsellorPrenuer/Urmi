@@ -19,7 +19,7 @@ export function Footer() {
               <a href="https://www.instagram.com/urmidasgupta" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-instagram">
                 <Instagram className="w-5 h-5 text-emerald-100" />
               </a>
-              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-linkedin">
+              <a href="https://www.linkedin.com/in/urmidasgupta/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-linkedin">
                 <Linkedin className="w-5 h-5 text-emerald-100" />
               </a>
               <a href="https://www.facebook.com/urmi.dasgupta" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 hover:from-emerald-500/40 hover:to-emerald-600/40 flex items-center justify-center transition-all border border-emerald-400/30" data-testid="link-footer-facebook">
