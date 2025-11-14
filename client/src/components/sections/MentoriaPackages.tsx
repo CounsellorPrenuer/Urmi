@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check } from 'lucide-react';
+import { Check, Star } from 'lucide-react';
 import type { MentoriaPackage } from '@shared/schema';
 import { MentoriaPaymentModal } from '@/components/MentoriaPaymentModal';
 
@@ -98,23 +98,24 @@ export function MentoriaPackages() {
               className="w-full md:max-w-[calc(50%_-_0.75rem)] lg:max-w-[calc(33.333%_-_1rem)]"
             >
               <Card 
-                className={`h-full glass-effect shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-emerald-500/10 rounded-2xl flex flex-col ${
+                className={`h-full glass-effect shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-emerald-500/10 rounded-2xl flex flex-col relative ${
                   pkg.name.toLowerCase().includes('plus') 
                     ? 'border-2 border-primary-purple/50 shadow-[0_0_30px_rgba(106,27,154,0.3)]' 
                     : 'border border-card-border'
                 }`}
                 data-testid={`card-mentoria-package-${pkg.id}`}
               >
+                {pkg.name.toLowerCase().includes('plus') && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                    <Badge className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-2 border-background shadow-lg px-4 py-1 text-sm font-semibold flex items-center gap-1.5" data-testid={`badge-popular-${pkg.id}`}>
+                      <Star className="w-3.5 h-3.5 fill-white" />
+                      Popular
+                    </Badge>
+                  </div>
+                )}
                 
                 <CardHeader className="space-y-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="font-serif text-2xl text-accent-orange flex-1">{pkg.name}</CardTitle>
-                    {pkg.name.toLowerCase().includes('plus') && (
-                      <Badge className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white border-0 shadow-md" data-testid={`badge-popular-${pkg.id}`}>
-                        Popular
-                      </Badge>
-                    )}
-                  </div>
+                  <CardTitle className="font-serif text-2xl text-accent-orange">{pkg.name}</CardTitle>
                   <div className="text-sm text-muted-foreground">{pkg.category}</div>
                   <div className="pt-2">
                     <div className="text-3xl font-bold text-primary-purple">
