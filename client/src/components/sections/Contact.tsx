@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { Phone, Mail, MapPin, Instagram, Twitter, Loader2 } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Twitter, Linkedin, Loader2 } from 'lucide-react';
 import { SiWhatsapp, SiYoutube, SiSpotify, SiFacebook, SiPinterest } from 'react-icons/si';
 
 const contactFormSchema = z.object({
@@ -48,6 +48,7 @@ export function Contact() {
 
   const socials = [
     { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/urmidasgupta' },
+    { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/urmidasgupta/' },
     { icon: Twitter, label: 'X (Twitter)', href: 'https://x.com/@UrMzD' },
     { icon: SiWhatsapp, label: 'WhatsApp', href: 'https://api.whatsapp.com/send/?phone=919886635186&text&type=phone_number&app_absent=0' },
     { icon: SiYoutube, label: 'YouTube', href: 'https://www.youtube.com/@claryntia' },
